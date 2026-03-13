@@ -2,17 +2,17 @@
   "members": [
     {
       "name": "Alex Chen",
-      "role": "Lead Programmer",
+      "role": "Programmer",
       "bio": "Specializes in PID control and odometry. Alex architected the Nexus motion library and Cybercore framework."
     },
     {
       "name": "Sarah Miller",
-      "role": "Head Builder",
-      "bio": "Expert in mechanical efficiency and CAD design. Sarah leads the iterative build process for the Pegasus chassis."
+      "role": "Builder",
+      "bio": "Expert in mechanical efficiency and CAD design. Sarah manages the iterative build process for the Pegasus chassis."
     },
     {
       "name": "David Park",
-      "role": "Primary Driver",
+      "role": "Driver",
       "bio": "Known for precise maneuvering and calm under pressure. David has over 3 years of competitive driving experience."
     },
     {
