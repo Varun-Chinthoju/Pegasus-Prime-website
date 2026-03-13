@@ -70,15 +70,15 @@ const Code = () => {
   ls        - List files in current directory
   whoami    - Display current user identity
   clear     - Clear the terminal screen`,
-    nexus: () => \`Nexus is our proprietary motion control library.
+    nexus: () => `Nexus is our proprietary motion control library.
 It enables precise motor movements using advanced PID loops, motion profiling, 
-and real-time sensor fusion to ensure absolute consistency during autonomous routines.\`,
-    cybercore: () => \`Cybercore is our foundational class architecture for the Nexus system.
+and real-time sensor fusion to ensure absolute consistency during autonomous routines.`,
+    cybercore: () => `Cybercore is our foundational class architecture for the Nexus system.
 It provides the core abstraction layer for motor control, sensor integration, 
-and task scheduling, allowing for a robust and modular codebase.\`,
+and task scheduling, allowing for a robust and modular codebase.`,
     pegasus: () => PEGASUS_ASCII,
-    ls: () => \`autonomous.cpp  drive_subsystem.h  nexus_core.lib  config.yaml\`,
-    whoami: () => \`team_97711v@pegasus-prime\`,
+    ls: () => `autonomous.cpp  drive_subsystem.h  nexus_core.lib  config.yaml`,
+    whoami: () => `team_97711v@pegasus-prime`,
   };
 
   const handleCommand = (cmd) => {
@@ -94,7 +94,7 @@ and task scheduling, allowing for a robust and modular codebase.\`,
     } else if (commands[trimmedCmd]) {
       response = commands[trimmedCmd]();
     } else {
-      response = \`zsh: command not found: \${trimmedCmd}\`;
+      response = `zsh: command not found: ${trimmedCmd}`;
     }
 
     setHistory(prev => [...prev, { type: 'input', text: cmd }, { type: 'output', text: response }]);
