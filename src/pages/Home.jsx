@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Users, Cpu, Code as CodeIcon, Zap, Target, Trophy, Activity, Hash, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
@@ -72,6 +73,12 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center bg-primary min-h-screen relative overflow-x-hidden" id="main-content">
+
+      <Helmet>
+        <title>Pegasus Prime | VRC Robotics Team 97711V</title>
+        <meta name="description" content="Pegasus Prime (Team 97711V) — the apex of autonomous VEX robotics. Precision mechanics, neural-level control software, and uncompromised competition performance." />
+        <link rel="canonical" href="https://varun-chinthoju.github.io/Pegasus-Prime-website/" />
+      </Helmet>
 
       {/* Cyber-Grid Background */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.035] z-0" style={{
