@@ -1,24 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { ArrowRight, Users, Cpu, Code as CodeIcon, Zap, Target, Trophy, Activity, Hash, ChevronDown } from 'lucide-react';
+import { ArrowRight, Users, Cpu, Code as CodeIcon, Zap, Target, Trophy, Activity, Hash, Wifi } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/logo.png';
 import { fetchTeamStats } from '../services/robotevents';
 
+/* ─── Ticker ──────────────────────────────────────────────────────── */
 const TICKER_ITEMS = [
-  'HIGH STAKES SEASON', 'TEAM 97711V', 'PEGASUS PRIME', 'AURORA NEXUS',
-  'NEXUS MOTION LIB', 'CYBERCORE ARCH', 'VRC EXCELLENCE', 'AUTONOMOUS SYSTEMS',
-  'HIGH STAKES SEASON', 'TEAM 97711V', 'PEGASUS PRIME', 'AURORA NEXUS',
+  'HIGH STAKES 2025', 'TEAM 97711V', 'PEGASUS PRIME', 'AURORA NEXUS',
+  'VEXU ROBOTICS', 'ZEPHYR ROBOT', 'EXCELLENCE AWARD', 'CALIFORNIA REGION',
 ];
 
 const Ticker = () => (
-  <div className="w-full overflow-hidden border-y border-white/5 py-4 bg-surface/40 backdrop-blur-md relative">
-    <div className="flex animate-[ticker_35s_linear_infinite] whitespace-nowrap will-change-transform">
-      {TICKER_ITEMS.concat(TICKER_ITEMS).map((item, i) => (
-        <span key={i} className="flex items-center mx-8 text-[11px] font-black uppercase tracking-[0.4em] text-white/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent mr-6 flex-shrink-0"></span>
+  <div className="w-full overflow-hidden py-3 bg-accent/5 border-y border-accent/10 relative">
+    <div className="flex animate-[ticker_30s_linear_infinite] whitespace-nowrap">
+      {[...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+        <span key={i} className="flex items-center mx-10 text-[10px] font-black uppercase tracking-[0.5em] text-accent/40">
+          <span className="w-1 h-1 rounded-full bg-accent/60 mr-8 flex-shrink-0"></span>
           {item}
         </span>
       ))}
@@ -26,21 +26,21 @@ const Ticker = () => (
   </div>
 );
 
-const StatCard = ({ icon, value, label, delay, color = 'accent' }) => (
+/* ─── StatCard ──────────────────────────────────────────────────────── */
+const StatCard = ({ icon, value, label, delay }) => (
   <motion.div
-    initial={{ opacity: 0, y: 24 }}
+    initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ delay, duration: 0.6 }}
-    className="group text-center relative flex flex-col items-center border-r border-white/5 last:border-0 px-4"
+    transition={{ delay, duration: 0.5, ease: 'easeOut' }}
+    className="group flex flex-col items-center text-center p-8 bg-surface/40 border border-white/5 hover:border-accent/20 hover:bg-surface/70 hover:shadow-[0_0_30px_rgba(0,240,255,0.06)] transition-all duration-500 relative"
   >
-    <div className={`p-3 bg-surface rounded-xl inline-block mb-5 border border-white/5 group-hover:border-${color}/40 group-hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all`}>
+    <div className="p-3 bg-primary border border-white/10 group-hover:border-accent/30 group-hover:shadow-[0_0_16px_rgba(0,240,255,0.2)] mb-5 transition-all duration-500">
       {icon}
     </div>
-    <div className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter tabular-nums group-hover:text-accent transition-colors">
+    <div className="text-4xl lg:text-5xl font-black text-white tracking-tighter mb-2 tabular-nums group-hover:text-accent transition-colors duration-300">
       {value}
     </div>
-    <div className="text-text-muted text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2">
-      <span className="w-1.5 h-1.5 rounded-full bg-accent/50 animate-pulse"></span>
+    <div className="text-[10px] font-black uppercase tracking-[0.35em] text-white/25 group-hover:text-white/40 transition-colors">
       {label}
     </div>
   </motion.div>
@@ -51,275 +51,236 @@ StatCard.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   label: PropTypes.string.isRequired,
   delay: PropTypes.number,
-  color: PropTypes.string,
 };
 
+/* ─── Home ──────────────────────────────────────────────────────────── */
 const Home = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const heroRef = useRef(null);
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroY = useTransform(scrollY, [0, 400], [0, 80]);
 
   useEffect(() => {
-    const loadData = async () => {
-      const teamStats = await fetchTeamStats();
-      setStats(teamStats);
-      setLoading(false);
-    };
-    loadData();
+    fetchTeamStats().then((s) => { setStats(s); setLoading(false); });
   }, []);
 
   return (
-    <div className="flex flex-col items-center bg-primary min-h-screen relative overflow-x-hidden" id="main-content">
+    <div className="flex flex-col bg-primary min-h-screen relative overflow-x-hidden" id="main-content">
 
       <Helmet>
-        <title>Pegasus Prime | VRC Robotics Team 97711V</title>
-        <meta name="description" content="Pegasus Prime (Team 97711V) — the apex of autonomous VEX robotics. Precision mechanics, neural-level control software, and uncompromised competition performance." />
+        <title>Pegasus Prime | VRC Team 97711V</title>
+        <meta name="description" content="Pegasus Prime — VEX Robotics Competition Team 97711V. Precision-engineered hardware fused with neural-level software." />
         <link rel="canonical" href="https://varun-chinthoju.github.io/Pegasus-Prime-website/" />
       </Helmet>
 
-      {/* Cyber-Grid Background */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.035] z-0" style={{
-        backgroundImage: 'linear-gradient(rgba(0,240,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,0.5) 1px, transparent 1px)',
-        backgroundSize: '60px 60px',
-      }}></div>
+      {/* Global grid */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]" style={{
+        backgroundImage: 'linear-gradient(rgba(0,240,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,1) 1px, transparent 1px)',
+        backgroundSize: '50px 50px',
+      }} />
 
-      {/* Hero Section */}
-      <section ref={heroRef} className="w-full min-h-screen flex flex-col items-center justify-center text-center px-6 relative z-10 pt-24">
+      {/* ── Hero ────────────────────────────────────────────────────── */}
+      <section className="relative w-full min-h-screen flex items-center pt-24 pb-16 px-8 z-10 overflow-hidden">
 
-        {/* Ambient Glows */}
-        <div className="absolute top-[20%] left-[-15%] w-[700px] h-[700px] bg-accent/8 rounded-full blur-[180px] pointer-events-none"></div>
-        <div className="absolute bottom-[10%] right-[-15%] w-[600px] h-[600px] bg-blue-600/8 rounded-full blur-[180px] pointer-events-none"></div>
+        {/* Large ambient glows */}
+        <div className="absolute -top-20 -left-40 w-[900px] h-[900px] bg-accent/[0.06] rounded-full blur-[200px] pointer-events-none" />
+        <div className="absolute bottom-0 right-[-20%] w-[700px] h-[700px] bg-blue-600/[0.05] rounded-full blur-[180px] pointer-events-none" />
 
-        <motion.div style={{ opacity: heroOpacity, y: heroY }} className="z-20 max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full text-left">
-
-          {/* Logo Column */}
-          <motion.div
-            initial={{ scale: 0.7, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative group flex-shrink-0"
+        {/* Giant bg text */}
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden"
+          aria-hidden="true"
+        >
+          <span
+            className="text-[22vw] font-black uppercase italic tracking-tighter leading-none text-white/[0.018] whitespace-nowrap"
           >
-            {/* Outer spinning ring */}
-            <div className="absolute inset-0 -m-10 border border-accent/15 rounded-full border-dashed animate-[spin_25s_linear_infinite]"></div>
-            {/* Inner spinning ring */}
-            <div className="absolute inset-0 -m-5 border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-            {/* Glow blob */}
-            <div className="absolute inset-0 -m-4 bg-accent/20 rounded-full blur-2xl scale-125 group-hover:scale-150 transition-transform duration-1000"></div>
+            PEGASUS
+          </span>
+        </div>
 
-            <div className="relative w-44 h-44 md:w-56 md:h-56 bg-surface-light/30 backdrop-blur-2xl rounded-[2.5rem] border border-white/10 flex items-center justify-center shadow-[0_0_60px_rgba(0,240,255,0.12)] group-hover:border-accent/30 group-hover:shadow-[0_0_80px_rgba(0,240,255,0.25)] transition-all duration-700 group-hover:scale-[1.03]">
-              <img src={logo} alt="Pegasus Prime" className="w-28 h-28 md:w-36 md:h-36 object-contain" />
-              {/* Corner brackets */}
-              <div className="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-accent/50 rounded-tl"></div>
-              <div className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-accent/50 rounded-tr"></div>
-              <div className="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-accent/50 rounded-bl"></div>
-              <div className="absolute bottom-2 right-2 w-5 h-5 border-b-2 border-r-2 border-accent/50 rounded-br"></div>
-            </div>
-          </motion.div>
+        <div className="max-w-7xl mx-auto w-full z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-16 items-center">
 
-          {/* Text Column */}
-          <div className="flex-1">
+          {/* — Left: Text — */}
+          <div>
+            {/* Label chip */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.7 }}
-              className="inline-flex items-center gap-3 mb-6 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-black uppercase tracking-widest"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-3 px-4 py-1.5 border border-accent/25 bg-accent/8 rounded-full mb-8"
             >
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              VRC High Stakes — Team 97711V
+              <Wifi size={12} className="text-accent animate-pulse" />
+              <span className="text-accent text-[11px] font-black uppercase tracking-[0.35em]">VRC High Stakes · Team 97711V</span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.9, ease: 'easeOut' }}
-              className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white uppercase italic leading-[0.9] mb-8"
-            >
-              PEGASUS<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-sky-300 to-blue-400">PRIME</span>
-            </motion.h1>
+            {/* Headline */}
+            <div className="overflow-hidden mb-3">
+              <motion.h1
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[clamp(4rem,12vw,9rem)] font-black uppercase italic tracking-tighter leading-[0.85] text-white"
+              >
+                Pegasus
+              </motion.h1>
+            </div>
+            <div className="overflow-hidden mb-10">
+              <motion.h1
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[clamp(4rem,12vw,9rem)] font-black uppercase italic tracking-tighter leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-accent via-sky-300 to-blue-400"
+              >
+                Prime
+              </motion.h1>
+            </div>
 
+            {/* Sub */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.55, duration: 0.8 }}
-              className="text-lg md:text-xl text-text-muted max-w-xl mb-10 leading-relaxed font-medium"
+              transition={{ delay: 0.5, duration: 0.7 }}
+              className="text-white/40 text-lg max-w-lg leading-relaxed mb-12 font-medium"
             >
-              The apex of autonomous robotics. Precision-engineered hardware
-              fused with neural-level software for <span className="text-white font-bold italic">uncompromised competition performance.</span>
+              Four high school students from California competing in VRC High Stakes. We design, build, and program our own robot. No outsourcing, no shortcuts.
             </motion.p>
 
+            {/* CTAs */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.7 }}
-              className="flex flex-col sm:flex-row gap-4"
+              transition={{ delay: 0.65, duration: 0.6 }}
+              className="flex flex-wrap gap-4"
             >
               <Link
                 to="/robot"
-                className="group relative inline-flex items-center justify-center px-8 py-4 bg-accent text-primary font-black text-sm uppercase tracking-widest rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,240,255,0.35)] hover:shadow-[0_0_50px_rgba(0,240,255,0.6)] transition-shadow duration-300"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-accent text-primary font-black text-sm uppercase tracking-widest shadow-[0_0_40px_rgba(0,240,255,0.4)] hover:shadow-[0_0_60px_rgba(0,240,255,0.7)] transition-all duration-300 overflow-hidden"
               >
-                <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <span className="relative flex items-center">
-                  View Robot <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out z-0" />
+                <span className="relative z-10 flex items-center gap-3">
+                  View Robot <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
               <Link
                 to="/code"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white/10 bg-surface/30 backdrop-blur-md text-white font-black text-sm uppercase tracking-widest rounded-xl hover:border-accent/40 hover:bg-surface/60 transition-all duration-300 group"
+                className="inline-flex items-center gap-3 px-8 py-4 border border-white/10 bg-white/[0.03] text-white font-black text-sm uppercase tracking-widest hover:border-accent/40 hover:bg-white/[0.06] transition-all duration-300"
               >
-                <Zap className="mr-2 w-4 h-4 text-accent group-hover:scale-110 transition-transform" />
+                <Zap size={14} className="text-accent" />
                 Code Lab
               </Link>
             </motion.div>
           </div>
-        </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20 text-[10px] uppercase tracking-[0.4em] font-bold"
-        >
-          <ChevronDown className="animate-bounce w-5 h-5" />
-          Scroll
-        </motion.div>
+          {/* — Right: Logo — */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="hidden lg:flex items-center justify-center relative group"
+          >
+            {/* Rings */}
+            <div className="absolute w-[360px] h-[360px] border border-accent/10 rounded-full border-dashed animate-[spin_30s_linear_infinite]" />
+            <div className="absolute w-[280px] h-[280px] border border-white/[0.04] rounded-full animate-[spin_20s_linear_infinite_reverse]" />
+            {/* Glow */}
+            <div className="absolute w-52 h-52 bg-accent/20 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-1000" />
+            {/* Logo box */}
+            <div className="relative w-52 h-52 bg-surface-light/20 backdrop-blur-xl border border-white/8 flex items-center justify-center shadow-[0_0_80px_rgba(0,240,255,0.1)] group-hover:border-accent/20 group-hover:shadow-[0_0_100px_rgba(0,240,255,0.2)] transition-all duration-700">
+              <img src={logo} alt="Pegasus Prime" className="w-32 h-32 object-contain" />
+              {/* Corner brackets */}
+              {['top-1.5 left-1.5 border-t border-l', 'top-1.5 right-1.5 border-t border-r', 'bottom-1.5 left-1.5 border-b border-l', 'bottom-1.5 right-1.5 border-b border-r'].map((c, i) => (
+                <div key={i} className={`absolute w-4 h-4 border-accent/50 ${c}`} />
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Ticker */}
+      {/* ── Ticker ──────────────────────────────────────────────────── */}
       <Ticker />
 
-      {/* Stats Section */}
-      <section className="w-full py-20 bg-surface/30 border-b border-white/5 relative z-20 backdrop-blur-2xl">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* ── Stats ───────────────────────────────────────────────────── */}
+      <section className="w-full relative z-10 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto">
           <AnimatePresence mode="wait">
             {loading ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div key="skeletons" className="grid grid-cols-2 md:grid-cols-4">
                 {Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="flex flex-col items-center animate-pulse">
-                    <div className="w-10 h-10 bg-white/5 rounded-xl mb-5"></div>
-                    <div className="w-20 h-9 bg-white/5 rounded mb-3"></div>
-                    <div className="w-28 h-3 bg-white/5 rounded"></div>
+                  <div key={i} className="flex flex-col items-center p-10 border-r border-white/5 last:border-0 animate-pulse">
+                    <div className="w-10 h-10 bg-white/5 mb-5" />
+                    <div className="w-20 h-8 bg-white/5 rounded mb-3" />
+                    <div className="w-24 h-2.5 bg-white/5 rounded" />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <StatCard
-                  icon={<Target className="text-accent" size={22} />}
-                  value={`${stats?.wins ?? 0}-${stats?.losses ?? 0}`}
-                  label="Win / Loss"
-                  delay={0}
-                />
-                <StatCard
-                  icon={<Hash className="text-accent" size={22} />}
-                  value={`#${stats?.ranking ?? '??'}`}
-                  label="Global Rank"
-                  delay={0.1}
-                />
-                <StatCard
-                  icon={<Activity className="text-accent" size={22} />}
-                  value={stats?.opr ?? '—'}
-                  label="OPR"
-                  delay={0.2}
-                />
-                <StatCard
-                  icon={<Trophy className="text-accent" size={22} />}
-                  value="10+"
-                  label="Excellence Awards"
-                  delay={0.3}
-                />
+              <div key="stats" className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5 border-y border-white/5">
+                <StatCard icon={<Target className="text-accent" size={20} />} value={`${stats?.wins ?? 0}–${stats?.losses ?? 0}`} label="Win / Loss" delay={0} />
+                <StatCard icon={<Hash className="text-accent" size={20} />} value={`#${stats?.ranking ?? '??'}`} label="Global TrueSkill" delay={0.08} />
+                <StatCard icon={<Activity className="text-accent" size={20} />} value={stats?.opr ?? '—'} label="Offensive Power" delay={0.16} />
+                <StatCard icon={<Trophy className="text-accent" size={20} />} value="10+" label="Excellence Awards" delay={0.24} />
               </div>
             )}
           </AnimatePresence>
         </div>
       </section>
 
-      {/* System Focus Cards */}
-      <section className="w-full py-32 px-6 relative bg-primary">
-        <div className="max-w-6xl mx-auto">
+      {/* ── System Cards ────────────────────────────────────────────── */}
+      <section className="w-full py-32 px-8 relative z-10">
+        <div className="max-w-7xl mx-auto">
 
-          <div className="mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-4 mb-6"
-            >
-              <div className="h-px flex-1 bg-gradient-to-r from-accent/40 to-transparent"></div>
-              <span className="text-accent font-mono text-xs uppercase tracking-widest">{'// System Architecture'}</span>
-              <div className="h-px flex-1 bg-gradient-to-l from-accent/40 to-transparent"></div>
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-5xl md:text-6xl font-black text-white uppercase italic tracking-tighter text-center"
-            >
-              Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Systems</span>
-            </motion.h2>
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20 pb-8 border-b border-white/5">
+            <div>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-6 h-px bg-accent" />
+                <span className="text-accent font-mono text-xs uppercase tracking-[0.4em]">What we do</span>
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter text-white leading-none">
+                How We<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-sky-400">Compete</span>
+              </h2>
+            </div>
+            <p className="text-white/25 text-sm max-w-xs leading-relaxed font-medium md:text-right">
+              What three years of tinkering, failing, and actually figuring it out looks like.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {[
-              {
-                icon: <Cpu strokeWidth={1.5} />,
-                title: 'Mechanical Architecture',
-                desc: 'Aerospace-grade aluminum subsystems with high-density gearing. Iterative CAD modeling for peak torque transfer and structural integrity.',
-                num: '01',
-                tag: 'hardware',
-              },
-              {
-                icon: <CodeIcon strokeWidth={1.5} />,
-                title: 'Control Cybernetics',
-                desc: 'Custom state-machine autonomy with 3-layer PID loops and real-time odometry correction. Sensor fusion for sub-millimeter precision.',
-                num: '02',
-                tag: 'software',
-              },
-              {
-                icon: <Users strokeWidth={1.5} />,
-                title: 'Adversarial Strategy',
-                desc: 'Data-driven scouting and tactical analysis systems. Pre-computed path routing and opponent modelling for match-level dominance.',
-                num: '03',
-                tag: 'strategy',
-              },
+              { icon: <Cpu strokeWidth={1.5} />, num: '01', tag: 'BUILD', title: 'Hardware & Design', desc: 'Everything is designed in Fusion 360 and built by hand. We use custom gearing, aluminum framing, and reiterate constantly — sometimes the night before a match.' },
+              { icon: <CodeIcon strokeWidth={1.5} />, num: '02', tag: 'CODE', title: 'Autonomous & Control', desc: 'We wrote our own PID controller and odometry from scratch. Autonomous routines are tested until they\'re boring to watch — that\'s how you know they\'re reliable.' },
+              { icon: <Users strokeWidth={1.5} />, num: '03', tag: 'STRATEGY', title: 'Scouting & Alliances', desc: "We keep spreadsheets on other teams, watch a lot of matches, and actually think about alliance picks. A bad partner can cost you the whole event." },
             ].map((s, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 32 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                className="group relative"
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="group relative bg-primary p-10 md:p-12 hover:bg-surface/50 transition-colors duration-500 overflow-hidden"
               >
-                {/* Hover bracket corners */}
-                <div className="absolute -top-px -left-px w-6 h-6 border-t-2 border-l-2 border-transparent group-hover:border-accent/70 transition-colors duration-300 z-10"></div>
-                <div className="absolute -bottom-px -right-px w-6 h-6 border-b-2 border-r-2 border-transparent group-hover:border-accent/70 transition-colors duration-300 z-10"></div>
+                {/* Corner bracket hover */}
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-accent/0 group-hover:border-accent/60 transition-colors duration-400" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-accent/0 group-hover:border-accent/60 transition-colors duration-400" />
 
-                <div className="h-full p-9 bg-surface/30 border border-white/5 group-hover:bg-surface/70 group-hover:border-white/10 group-hover:shadow-[0_0_40px_rgba(0,240,255,0.07)] transition-all duration-500 relative overflow-hidden">
-                  <div className="flex items-start justify-between mb-10">
-                    <div className="p-3.5 bg-primary border border-white/10 text-white/50 group-hover:text-accent group-hover:border-accent/30 transition-all duration-500">
-                      {React.cloneElement(s.icon, { size: 28 })}
-                    </div>
-                    <div className="font-mono text-5xl font-black text-white/[0.04] group-hover:text-accent/15 transition-colors select-none">
-                      {s.num}
-                    </div>
+                {/* Top row: icon + num */}
+                <div className="flex items-start justify-between mb-12">
+                  <div className="p-3.5 bg-white/[0.03] border border-white/8 text-white/30 group-hover:text-accent group-hover:border-accent/25 group-hover:bg-accent/5 transition-all duration-500">
+                    {React.cloneElement(s.icon, { size: 26 })}
                   </div>
+                  <span className="font-mono text-5xl font-black text-white/[0.04] group-hover:text-accent/10 transition-colors select-none">
+                    {s.num}
+                  </span>
+                </div>
 
-                  <div className="inline-block px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.3em] text-accent/50 border border-accent/20 mb-5">
-                    {s.tag}
-                  </div>
+                {/* Tag */}
+                <div className="text-[9px] font-black uppercase tracking-[0.4em] text-accent/0 group-hover:text-accent/50 border border-accent/0 group-hover:border-accent/20 px-2 py-0.5 inline-block mb-5 transition-all duration-400">
+                  {s.tag}
+                </div>
 
-                  <h3 className="text-xl font-bold text-white uppercase tracking-tight mb-4 leading-tight">{s.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed group-hover:text-slate-400 transition-colors">{s.desc}</p>
+                <h3 className="text-xl font-black text-white uppercase tracking-tight mb-4">{s.title}</h3>
+                <p className="text-white/30 text-sm leading-relaxed group-hover:text-white/50 transition-colors duration-500">{s.desc}</p>
 
-                  <div className="mt-8 flex items-center text-[11px] font-mono uppercase tracking-widest text-transparent group-hover:text-accent/60 transition-colors">
-                    Initialize <ArrowRight className="ml-2 w-3.5 h-3.5" />
-                  </div>
+                <div className="mt-10 flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-accent/0 group-hover:text-accent/50 transition-all duration-400">
+                  Learn more <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </motion.div>
             ))}
@@ -327,27 +288,43 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="w-full py-32 px-6 bg-surface/20 border-t border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/3 to-transparent pointer-events-none"></div>
-        <div className="max-w-3xl mx-auto text-center relative z-10">
+      {/* ── Bottom CTA ──────────────────────────────────────────────── */}
+      <section className="relative w-full py-40 px-8 overflow-hidden z-10">
+        {/* Glow */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[600px] h-[300px] bg-accent/8 rounded-full blur-[100px]" />
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
           >
-            <div className="text-accent font-mono text-xs tracking-widest uppercase mb-6">{'// Join The Mission'}</div>
-            <h2 className="text-5xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-8">
-              Want to partner<br/>with <span className="text-accent">Pegasus?</span>
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="h-px w-16 bg-accent/40" />
+              <span className="text-accent/60 font-mono text-xs uppercase tracking-[0.4em]">Sponsors</span>
+              <div className="h-px w-16 bg-accent/40" />
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter mb-8 leading-[0.9]">
+              <span className="text-white">Support</span><br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-sky-400">Our Team</span>
             </h2>
-            <p className="text-text-muted text-lg mb-10 leading-relaxed">
-              We are actively seeking sponsors and collaborators who share our commitment to engineering excellence.
+
+            <p className="text-white/35 text-xl mb-12 max-w-xl mx-auto leading-relaxed">
+              {'VRC is genuinely expensive — registration, parts, travel, they add up fast. If you\'ve got a company and want to support some high school kids doing cool stuff, reach out.'}
             </p>
+
             <Link
               to="/sponsors"
-              className="inline-flex items-center px-10 py-5 bg-accent text-primary font-black uppercase tracking-widest text-sm rounded-xl shadow-[0_0_40px_rgba(0,240,255,0.3)] hover:shadow-[0_0_60px_rgba(0,240,255,0.5)] transition-all duration-300 group"
+              className="group inline-flex items-center gap-4 px-10 py-5 bg-accent text-primary font-black text-sm uppercase tracking-widest shadow-[0_0_50px_rgba(0,240,255,0.4)] hover:shadow-[0_0_80px_rgba(0,240,255,0.65)] transition-shadow duration-300 relative overflow-hidden"
             >
-              Partner Hub <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <span className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 z-0" />
+              <span className="relative z-10 flex items-center gap-4">
+                Get in Touch <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </span>
             </Link>
           </motion.div>
         </div>
@@ -356,7 +333,7 @@ const Home = () => {
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes ticker {
           from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
+          to   { transform: translateX(-33.333%); }
         }
       `}} />
     </div>

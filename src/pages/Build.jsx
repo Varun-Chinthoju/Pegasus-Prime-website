@@ -25,7 +25,7 @@ const Build = () => {
           </h1>
           <div className="section-accent"></div>
           <p className="text-slate-400 max-w-2xl mt-8 font-bold text-lg leading-relaxed italic">
-            From high-fidelity CAD modeling to rapid field deployment. We don&apos;t just build; we optimize.
+            How we go from a blank page in Fusion 360 to a robot that actually works at a tournament.
           </p>
         </motion.div>
 
@@ -60,7 +60,7 @@ const Build = () => {
             <div className="space-y-6">
               <h2 className="text-4xl font-black text-white tracking-tighter uppercase italic">Digital Fabrication</h2>
               <p className="text-slate-400 text-lg leading-relaxed font-medium border-l-4 border-accent pl-8 py-2">
-                Every bolt, nut, and spacer is accounted for in our Fusion 360 workspace. This allows us to simulate stress points and verify mechanical clearances before a single piece of aluminum is cut.
+                We model everything in Fusion 360 before we cut anything. It saves time — you catch clearance issues in CAD instead of finding out when parts don&apos;t fit.
               </p>
             </div>
           </motion.div>
@@ -69,20 +69,20 @@ const Build = () => {
             {[
               { 
                 icon: <Layers size={32} />, 
-                title: 'Modular Chassis', 
-                desc: 'A robust 6-motor drivetrain featuring 3.25" omni-wheels for superior maneuverability and consistent torque delivery.',
+                title: 'Drivetrain', 
+                desc: 'Six-motor tank drive on 3.25" omni wheels. Tuned for the speed we need without burning motors mid-match.',
                 color: 'secondary'
               },
               { 
                 icon: <Settings size={32} />, 
-                title: 'Kinematic Systems', 
-                desc: 'Custom 4-bar lift mechanism optimized for maximum high-stake reaching efficiency and minimal friction loss.',
+                title: 'Mechanisms', 
+                desc: 'Custom 4-bar lift with a pneumatic clamp on the end. Designed specifically around the High Stakes game objects.',
                 color: 'accent'
               },
               { 
                 icon: <GitBranch size={32} />, 
-                title: 'Iterative Prototyping', 
-                desc: 'Rapid testing cycles using 3D-printed components and laser-cut polycarbonate to verify scoring geometry.',
+                title: 'Design Iteration', 
+                desc: 'We prototype in polycarbonate and 3D prints first. If it breaks, we learn something. Then we replace it with aluminum.',
                 color: 'white'
               }
             ].map((feature, i) => (
@@ -114,13 +114,13 @@ const Build = () => {
           <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" 
                style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #fff 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
           
-          <h2 className="text-4xl md:text-6xl font-black mb-24 text-center text-white tracking-tighter uppercase italic">Evolutionary Path</h2>
+          <h2 className="text-4xl md:text-6xl font-black mb-24 text-center text-white tracking-tighter uppercase italic">How We Build</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-20 relative z-10">
              {[
-               { step: '01', title: 'Blueprint', desc: 'Translating strategic requirements into high-fidelity digital schematics.' },
-               { step: '02', stepColor: 'secondary', title: 'Fabrication', desc: 'Precision assembly of the primary structural members and drive pods.' },
-               { step: '03', stepColor: 'accent', title: 'Validation', desc: 'Stress-testing systems under competition-simulated load conditions.' }
+             { step: '01', title: 'Design', desc: 'We sketch it out, argue about it, then build it in Fusion 360 until it makes sense.' },
+               { step: '02', stepColor: 'secondary', title: 'Build', desc: 'Cut, drill, rivet, repeat. The robot comes together match by match, tournament by tournament.' },
+               { step: '03', stepColor: 'accent', title: 'Test & Fix', desc: 'Drive it around, break something, figure out why, and make it stronger. That\'s the loop.' }
              ].map((road, i) => (
                <div key={i} className="flex flex-col items-center md:items-start group relative">
                   {/* Visual Connection Line */}

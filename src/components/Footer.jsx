@@ -29,7 +29,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-text-muted text-base leading-relaxed max-w-sm font-medium">
-              Pushing the boundaries of VEX robotics through precision engineering, custom software architecture, and a relentless commitment to innovation.
+              We&apos;re four high school students who build robots. We design everything ourselves, write all the code, and compete at tournaments around California.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social, i) => (
@@ -60,15 +60,15 @@ const Footer = () => {
           </div>
           
           <div className="md:col-span-4 bg-surface/50 backdrop-blur-sm p-8 rounded-[2.5rem] border border-white/5 h-fit">
-            <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 italic">Support Mission</h4>
+            <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 italic">Support Us</h4>
             <p className="text-text-muted text-sm font-medium mb-8 leading-relaxed">
-              Join us in engineering the future. Your support fuels our competition travel, hardware prototypes, and STEM outreach.
+              VRC is expensive. If your company wants to help us out with registration fees, parts, or travel, we&apos;d really appreciate it.
             </p>
             <a 
               href="/sponsors" 
               className="inline-flex items-center justify-center w-full py-4 bg-accent hover:bg-white text-primary font-black rounded-2xl transition-all uppercase tracking-widest italic shadow-lg shadow-accent/20"
             >
-              Partner with us
+              Get in touch
             </a>
           </div>
         </div>
@@ -78,11 +78,11 @@ const Footer = () => {
             &copy; {currentYear} Team 97711V Pegasus Prime. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-white/20">
-             <ShieldCheck size={14} /> Systems Encrypted & Verified
+             <ShieldCheck size={14} /> Team 97711V &middot; Pegasus Prime
           </div>
           <div className="flex gap-8">
-             <a href="#" className="hover:text-white transition-colors">Privacy Protocol</a>
-             <a href="#" className="hover:text-white transition-colors">Terms of Engagement</a>
+             <a href="mailto:contact@pegasusprime.com" className="hover:text-white transition-colors">Contact</a>
+             <a href="https://robotevents.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">RobotEvents</a>
           </div>
         </div>
       </div>

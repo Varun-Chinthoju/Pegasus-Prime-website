@@ -25,14 +25,14 @@ const Team = () => {
           className="flex flex-col items-center text-center mb-24"
         >
           <div className="text-sm font-black text-accent uppercase tracking-[0.4em] mb-4 italic">
-            Command Structure
+            The Team
           </div>
           <h1 className="section-title">
-            Team <span className="text-secondary">Hierarchy</span>
+            Meet <span className="text-secondary">Everyone</span>
           </h1>
           <div className="section-accent"></div>
           <p className="text-slate-400 max-w-2xl mt-8 font-bold text-lg leading-relaxed italic">
-            The core engineers, programmers, and strategists behind Pegasus Prime.
+            The four people behind Pegasus Prime.
           </p>
         </motion.div>
 

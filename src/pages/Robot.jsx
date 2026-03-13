@@ -16,7 +16,7 @@ const Robot = () => {
           Our Robot
         </motion.h1>
         <p className="text-text-muted max-w-2xl mx-auto font-medium text-lg leading-relaxed">
-          The culmination of iterative design, rigorous testing, and precision engineering.
+          What we&apos;ve been building and iterating on all season.
         </p>
       </div>
 
@@ -48,7 +48,7 @@ const Robot = () => {
            >
               <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">Technical Specifications</h2>
               <p className="text-text-muted text-lg leading-relaxed font-medium">
-                Engineered for maximum speed and structural integrity. Every subsystem is modular and optimized for competition reliability.
+                Our robot runs a six-motor drivetrain, a pneumatic clamp, and a custom intake. Everything is built to be easy to repair between matches.
               </p>
            </motion.div>
 
@@ -92,7 +92,7 @@ const Robot = () => {
               <p className="text-text-muted mt-3">Verified telemetry from our latest testing phase.</p>
             </div>
             <div className="px-4 py-2 bg-surface-light rounded-lg border border-white/5 text-xs text-text-muted font-mono flex items-center gap-2">
-               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> Live Data
+               <div className="w-2 h-2 rounded-full bg-green-500"></div> From our last scrimmage
             </div>
          </div>
 
