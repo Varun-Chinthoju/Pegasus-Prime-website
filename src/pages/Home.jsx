@@ -1,10 +1,11 @@
 import React from 'react';
 import { ArrowRight, Users, Cpu, Code as CodeIcon, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import content from '../data/team-content.json';
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center text-slate-100">
       {/* Hero Section */}
       <section className="w-full py-20 px-4 flex flex-col items-center text-center bg-gradient-to-b from-slate-900 to-slate-950 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
@@ -44,7 +45,7 @@ const Home = () => {
             <div className="text-slate-400 text-sm uppercase tracking-widest">Awards Won</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-green-400 mb-2">5</div>
+            <div className="text-4xl font-bold text-green-400 mb-2">{content.members.length}</div>
             <div className="text-slate-400 text-sm uppercase tracking-widest">Core Members</div>
           </div>
           <div className="text-center">
@@ -54,8 +55,28 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Team Members Section */}
+      <section className="max-w-7xl mx-auto py-24 px-4 w-full">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet the Team</h2>
+          <div className="h-1 w-20 bg-purple-500 mx-auto rounded-full"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {content.members.map((member, i) => (
+            <div key={i} className="p-8 bg-slate-900 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition-all hover:-translate-y-2 group">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-6 flex items-center justify-center text-2xl font-bold">
+                {member.name.split(' ').map(n => n[0]).join('')}
+              </div>
+              <h3 className="text-xl font-bold mb-1">{member.name}</h3>
+              <p className="text-blue-400 text-sm font-semibold mb-4 uppercase tracking-wider">{member.role}</p>
+              <p className="text-slate-400 text-sm leading-relaxed">{member.bio}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Features Grid */}
-      <section className="max-w-7xl mx-auto py-24 px-4">
+      <section className="max-w-7xl mx-auto py-24 px-4 border-t border-slate-900 w-full">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Do</h2>
           <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>

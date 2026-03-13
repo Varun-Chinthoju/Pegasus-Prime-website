@@ -1,13 +1,8 @@
 import React from 'react';
 import { Calendar, MapPin, Send, Mail } from 'lucide-react';
+import content from '../data/team-content.json';
 
 const News = () => {
-  const newsItems = [
-    { title: 'Regional Champions!', date: 'Feb 15, 2026', location: 'San Jose, CA', description: 'Team 97711V took home the Excellence Award and Tournament Champions at the regional qualifier.' },
-    { title: 'Design Reveal', date: 'Jan 10, 2026', location: 'Team Workshop', description: 'We officially revealed our V2 chassis design featuring a high-speed 6-motor drive.' },
-    { title: 'Sponsor Appreciation', date: 'Dec 20, 2025', location: 'Virtual', description: 'Huge thanks to our sponsors for supporting us throughout the build season.' },
-  ];
-
   return (
     <div className="max-w-7xl mx-auto py-16 px-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -15,7 +10,7 @@ const News = () => {
         <div>
           <h1 className="text-4xl font-bold mb-8">News & Updates</h1>
           <div className="space-y-8">
-            {newsItems.map((item, index) => (
+            {content.news.map((item, index) => (
               <div key={index} className="p-6 bg-slate-900 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition-colors">
                 <div className="flex items-center gap-4 text-xs text-slate-500 mb-3">
                   <span className="flex items-center gap-1"><Calendar size={14} /> {item.date}</span>
