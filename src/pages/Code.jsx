@@ -287,12 +287,12 @@ and task scheduling, allowing for a robust and modular codebase.`,
                       fontSize: '6px', 
                       lineHeight: '6px', 
                       whiteSpace: 'pre',
-                      color: '#e2e8f0',
-                      background: isPegasusMode ? 'linear-gradient(to right, #38bdf8, #60a5fa, #e2e8f0)' : 'linear-gradient(to right, #38bdf8, #e2e8f0, #38bdf8)',
+                      color: 'transparent',
+                      background: 'radial-gradient(circle, #ffffff, #38bdf8, #ffbd2e, #ffffff)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
-                      backgroundSize: '200% auto',
-                      animation: 'shine 3s linear infinite'
+                      backgroundSize: '400% 400%',
+                      animation: 'breathe 6s ease-in-out infinite'
                     } : {}}
                   >
                     {entry.text}
@@ -339,6 +339,23 @@ and task scheduling, allowing for a robust and modular codebase.`,
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes shine {
           to { background-position: 200% center; }
+        }
+        @keyframes breathe {
+          0% {
+            background-position: 50% 50%;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(56,189,248,0.5));
+            transform: scale(1);
+          }
+          50% {
+            background-position: 100% 50%;
+            filter: drop-shadow(0 0 15px rgba(255,189,46,0.9)) drop-shadow(0 0 30px rgba(56,189,248,0.8));
+            transform: scale(1.02);
+          }
+          100% {
+            background-position: 50% 50%;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(56,189,248,0.5));
+            transform: scale(1);
+          }
         }
       `}} />
 
