@@ -22,7 +22,7 @@ const Home = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             src={logo} 
             alt="Pegasus Logo" 
-            className="h-48 w-48 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(56,189,248,0.3)]" 
+            className="h-48 w-48 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(56,189,248,0.3)] mix-blend-screen" 
           />
           
           <motion.h1 

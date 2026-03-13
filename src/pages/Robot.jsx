@@ -23,7 +23,7 @@ const Robot = () => {
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          className="aspect-square bg-primary rounded-[3rem] overflow-hidden border-8 border-white shadow-2xl relative group flex items-center justify-center p-12"
+          className="aspect-square rounded-[3rem] overflow-hidden border-8 border-white shadow-2xl relative group flex items-center justify-center p-12"
         >
           <img src={logo} alt="Pegasus V2" className="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(56,189,248,0.4)] group-hover:scale-110 transition-transform duration-700" />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-12">
