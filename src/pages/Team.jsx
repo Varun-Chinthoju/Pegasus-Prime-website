@@ -143,7 +143,7 @@ const Team = () => {
 
                 <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-2 group-hover:text-emerald-500 transition-colors">Yuchen</h3>
                 <div className="inline-block px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-[10px] font-black uppercase tracking-widest mb-4">
-                  Code
+                  Software
                 </div>
                 <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">
                   Architects the autonomous software and control algorithms. Fine-tunes sensor fusion and PID loops to guarantee precise, repeatable robot behavior.
