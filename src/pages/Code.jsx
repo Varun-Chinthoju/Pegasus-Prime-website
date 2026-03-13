@@ -147,7 +147,11 @@ and task scheduling, allowing for a robust and modular codebase.`,
                     <span>{entry.text}</span>
                   </div>
                 ) : (
-                  <div className="text-blue-400 mt-1 pl-4 border-l border-slate-800 leading-tight">{entry.text}</div>
+                  <div 
+                    className={`text-blue-400 mt-1 pl-4 border-l border-slate-800 leading-tight ${entry.text.includes('PEGASUS') || entry.text.includes('..........') ? 'text-[6px]' : ''}`}
+                  >
+                    {entry.text}
+                  </div>
                 )}
               </div>
             ))}
