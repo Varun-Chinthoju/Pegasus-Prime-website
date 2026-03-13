@@ -200,6 +200,7 @@ and task scheduling, allowing for a robust and modular codebase.`,
 
   useEffect(() => {
     // Automatically run pegasus on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     handleCommand('pegasus');
   }, []);
 
