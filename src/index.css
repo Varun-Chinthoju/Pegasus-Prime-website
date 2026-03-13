@@ -1,24 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #020617; /* Ultra-Dark Navy Blue (Corrected) */
-  --color-secondary: #facc15; /* Vibrant Gold (Yellow-400) */
-  --color-accent: #0ea5e9; /* Sharp Cyan Blue (Sky-500) */
-  --color-metallic: #cbd5e1; /* Bright Silver/Metallic */
+  --color-primary: #050a18; /* Deep Midnight Blue */
+  --color-secondary: #d4af37; /* Burnished Gold */
+  --color-accent: #3b82f6; /* Professional Blue */
+  --color-surface: #0f172a; /* Lighter Blue-Grey for cards */
 }
 
 @layer base {
   body {
-    @apply bg-white text-slate-900;
+    @apply bg-primary text-slate-200 antialiased;
   }
 }
 
 .terminal-glow {
-  text-shadow: 0 0 8px rgba(14, 165, 233, 0.6);
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
-.metallic-text {
-  background: linear-gradient(to bottom, #ffffff 0%, #cbd5e1 50%, #64748b 100%);
+.glass-card {
+  @apply bg-surface/50 backdrop-blur-md border border-white/10;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #f1c40f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

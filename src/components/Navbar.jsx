@@ -13,36 +13,39 @@ const Navbar = () => {
     { path: '/build', label: 'Build' },
     { path: '/code', label: 'Code' },
     { path: '/sponsors', label: 'Sponsors' },
-    { path: '/news', label: 'News & Contact' },
+    { path: '/news', label: 'News' },
   ];
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-primary text-white sticky top-0 z-50 shadow-2xl border-b-2 border-secondary/30 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="bg-primary/80 backdrop-blur-xl border-b border-white/5 sticky top-0 z-50 transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex items-center justify-between h-24">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center space-x-3 group">
-              <img src={logo} alt="Pegasus Prime Logo" className="h-10 w-10 object-contain group-hover:scale-110 transition-transform duration-300 mix-blend-screen" />
+            <Link to="/" className="flex items-center space-x-4 group">
+              <div className="bg-white p-1 rounded-xl shadow-lg shadow-white/5 transition-transform group-hover:scale-105">
+                <img src={logo} alt="97711V" className="h-12 w-12 object-contain" />
+              </div>
               <div className="flex flex-col">
-                <span className="text-xl font-black tracking-tighter leading-none text-secondary italic">
-                  97711V
+                <span className="text-2xl font-bold tracking-tight text-white leading-none">
+                  PEGASUS <span className="text-secondary">PRIME</span>
                 </span>
-                <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/60">Pegasus Prime</span>
+                <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-slate-400 mt-1">Team 97711V</span>
               </div>
             </Link>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-1">
+          
+          <div className="hidden lg:block">
+            <div className="flex items-center space-x-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest italic transition-all duration-300 ${
+                  className={`px-6 py-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all duration-300 ${
                     isActive(link.path)
-                      ? 'bg-secondary text-primary shadow-[0_0_15px_rgba(250,204,21,0.4)]'
-                      : 'hover:text-secondary text-white'
+                      ? 'bg-secondary text-primary shadow-lg shadow-secondary/20'
+                      : 'text-slate-300 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {link.label}
@@ -50,13 +53,14 @@ const Navbar = () => {
               ))}
             </div>
           </div>
-          <div className="md:hidden">
+
+          <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-secondary hover:bg-white/10 focus:outline-none"
-              aria-label="Toggle menu"
+              className="p-3 rounded-2xl bg-white/5 text-slate-300 hover:text-white transition-colors"
+              aria-label="Menu"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -64,21 +68,23 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-primary border-t-2 border-secondary/20 px-4 pt-2 pb-6 space-y-2 shadow-2xl">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className={`block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest italic ${
-                isActive(link.path)
-                  ? 'bg-secondary text-primary'
-                  : 'text-white hover:bg-white/5'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="lg:hidden bg-surface border-t border-white/5 animate-in slide-in-from-top duration-300">
+          <div className="px-6 py-8 space-y-3">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className={`block px-6 py-4 rounded-2xl text-lg font-bold ${
+                  isActive(link.path)
+                    ? 'bg-secondary text-primary'
+                    : 'text-slate-300 hover:bg-white/5'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </nav>
