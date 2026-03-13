@@ -8,9 +8,9 @@ const Layout = () => {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-primary text-text-main font-sans selection:bg-accent/30 selection:text-accent">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow" id="main-content">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
