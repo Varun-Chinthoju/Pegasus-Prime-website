@@ -66,16 +66,70 @@ const Code = () => {
 ........................+*#+=:...........:+**#*++=..................................................
 ................. .......+*#++:....... .....-###%#+=........... ..  ............................ ...)`;
 
+  const MOCK_FILES = {
+    'autonomous.cpp': `// Team 97711V - High Stakes Autonomous
+#include "nexus_core.lib"
+
+void autonomous() {
+    Nexus::Chassis drive;
+    Nexus::Intake intake;
+    
+    // Deploy sequence
+    drive.move(24, 80); 
+    intake.spin(100);
+    
+    // Scoring logic
+    if(sensor.detectRing()) {
+        arm.lift(HIGH_STAKE);
+        arm.release();
+    }
+}`,
+    'drive_subsystem.h': `// Cybercore Drive Architecture
+class DriveSubsystem : public Cybercore::Module {
+    private:
+        MotorGroup leftMotors;
+        MotorGroup rightMotors;
+        InertialSensor gyro;
+        
+    public:
+        void setVelocity(int v);
+        void turnToAngle(float angle);
+        float getHeading();
+};`,
+    'nexus_core.lib': `[BINARY DATA] Nexus Motion Profiling v2.4.1
+- PID Control Engine: ENABLED
+- Odometry Module: ACTIVE
+- Multithreading: STABLE
+- Error Correction: 0.002% tolerance`,
+    'config.yaml': `robot:
+  id: 97711V
+  name: Pegasus
+  drivetrain:
+    motors: 6
+    ratio: 1.66
+    wheels: 3.25in
+  auton:
+    default: "right_side_rush"
+    delay: 0ms`
+  };
+
   const HELP_TEXT = `Available commands:
   help      - Display this help message
   nexus     - Learn about our custom motion control library
   cybercore - Learn about our foundational architecture
   pegasus   - Display the Pegasus Prime ASCII art and info
   ls        - List files in current directory
+  cat <file>- Read the contents of a file
+  pwd       - Print working directory
   whoami    - Display current user identity
+  date      - Display current system date
+  uname     - Print system information
   clear     - Clear the terminal screen`;
 
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState([
+    { type: 'input', text: 'help' },
+    { type: 'output', text: HELP_TEXT }
+  ]);
 
   const commands = {
     help: () => HELP_TEXT,
@@ -86,42 +140,47 @@ and real-time sensor fusion to ensure absolute consistency during autonomous rou
 It provides the core abstraction layer for motor control, sensor integration, 
 and task scheduling, allowing for a robust and modular codebase.`,
     pegasus: () => PEGASUS_ASCII,
-    ls: () => `autonomous.cpp  drive_subsystem.h  nexus_core.lib  config.yaml`,
+    ls: () => Object.keys(MOCK_FILES).join('  '),
     whoami: () => `team_97711v@pegasus-prime`,
+    pwd: () => `/users/pegasus/97711V/src`,
+    date: () => new Date().toString(),
+    uname: () => `Pegasus-OS 2.4.1-STABLE Darwin x86_64`,
+    cat: (args) => {
+      if (!args || args.length === 0) return 'cat: usage: cat <filename>';
+      const fileName = args[0];
+      return MOCK_FILES[fileName] || `cat: ${fileName}: No such file or directory`;
+    }
   };
 
   const handleCommand = async (cmd) => {
     if (isTyping) return;
     
-    const trimmedCmd = cmd.trim().toLowerCase();
+    const parts = cmd.trim().split(/\s+/);
+    const primaryCmd = parts[0].toLowerCase();
+    const args = parts.slice(1);
     
-    if (trimmedCmd === 'clear') {
+    if (primaryCmd === 'clear') {
       setHistory([]);
       return;
     }
 
-    // Add user input to history immediately
     setHistory(prev => [...prev, { type: 'input', text: cmd }]);
 
-    if (trimmedCmd === '') return;
+    if (primaryCmd === '') return;
 
     let fullResponse = '';
-    if (commands[trimmedCmd]) {
-      fullResponse = commands[trimmedCmd]();
+    if (commands[primaryCmd]) {
+      fullResponse = commands[primaryCmd](args);
     } else {
-      fullResponse = `zsh: command not found: ${trimmedCmd}`;
+      fullResponse = `zsh: command not found: ${primaryCmd}`;
     }
 
     const lines = fullResponse.split('\n');
-    
     setIsTyping(true);
-    
-    // Add an empty output entry that we will populate
     setHistory(prev => [...prev, { type: 'output', text: '' }]);
 
     let currentText = '';
     for (let i = 0; i < lines.length; i++) {
-      // Delay between lines: 40ms
       await new Promise(resolve => setTimeout(resolve, 40));
       currentText += lines[i] + (i < lines.length - 1 ? '\n' : '');
       
@@ -137,11 +196,6 @@ and task scheduling, allowing for a robust and modular codebase.`,
     
     setIsTyping(false);
   };
-
-  // Run 'help' on mount with animation
-  useEffect(() => {
-    handleCommand('help');
-  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
