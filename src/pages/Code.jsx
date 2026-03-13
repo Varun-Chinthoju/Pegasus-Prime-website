@@ -2,16 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const Code = () => {
   const [input, setInput] = useState('');
-  const [history, setHistory] = useState([]);
   const scrollRef = useRef(null);
 
-  const PEGASUS_ASCII = `__________                                          __________        .__
-\\\\______   \\\\ ____   _________    ________ __  ______ \\\\______   \\\\_______|__| _____   ____
- |     ___// __ \\\\ / ___\\\\\\\\__  \\\\  /  ___/  |  \\\\/  ___/  |     ___/\\\\_  __ \\\\  |/     \\\\/ __ \\\\
- |    |   \\\\  ___// /_/  > __ \\\\_\\\\\\\\___ \\\\|  |  / \\\\___ \\\\ |    |     |  | \\\\/  |  Y Y  \\\\  ___/
- |____|    \\\\___  >___  (____  /____  >____//____  >  |____|     |__|  |__|__|_|  /\\\\___  /
-               \\\\/_____/     \\\\/     \\\\/           \\\\/                             \\\\/     \\\\/
-
+  const PEGASUS_ASCII = `__________                                                 __________        .__                
+\\______   \\ ____   _________    ________ __  ______        \\______   \\_______|__| _____   ____  
+ |     ___// __ \\ / ___\\__  \\  /  ___/  |  \\/  ___/  ______ |     ___/\\_  __ \\  |/     \\_/ __ \\ 
+ |    |   \\  ___// /_/  > __ \\_\\___ \\|  |  /\\___ \\  /_____/ |    |     |  | \\/  |  Y Y  \\  ___/ 
+ |____|    \\___  >___  (____  /____  >____//____  >         |____|     |__|  |__|__|_|  /\\___  >
+               \\/_____/     \\/     \\/           \\/                                    \\/     \\/ 
+                            __________________________  ____ ________   ____                    
+                           /   __   \\______  \\______  \\/_   /_   \\   \\ /   /                    
+                           \\____    /   /    /   /    / |   ||   |\\   Y   /                     
+                              /    /   /    /   /    /  |   ||   | \\     /                      
+                             /____/   /____/   /____/   |___||___|  \\___/                       
+                                                                                                
 ....................................................................................................
 ....................................................................................................
 ..............................................................:---:::...............................
@@ -61,15 +65,22 @@ const Code = () => {
 ........................+*#+=:...........:+**#*++=..................................................
 ................. .......+*#++:....... .....-###%#+=........... ..  ............................ ...)`;
 
-  const commands = {
-    help: () => `Available commands:
+  const HELP_TEXT = `Available commands:
   help      - Display this help message
   nexus     - Learn about our custom motion control library
   cybercore - Learn about our foundational architecture
   pegasus   - Display the Pegasus Prime ASCII art and info
   ls        - List files in current directory
   whoami    - Display current user identity
-  clear     - Clear the terminal screen`,
+  clear     - Clear the terminal screen`;
+
+  const [history, setHistory] = useState([
+    { type: 'input', text: 'help' },
+    { type: 'output', text: HELP_TEXT }
+  ]);
+
+  const commands = {
+    help: () => HELP_TEXT,
     nexus: () => `Nexus is our proprietary motion control library.
 It enables precise motor movements using advanced PID loops, motion profiling, 
 and real-time sensor fusion to ensure absolute consistency during autonomous routines.`,
@@ -99,10 +110,6 @@ and task scheduling, allowing for a robust and modular codebase.`,
 
     setHistory(prev => [...prev, { type: 'input', text: cmd }, { type: 'output', text: response }]);
   };
-
-  useEffect(() => {
-    handleCommand('help');
-  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
