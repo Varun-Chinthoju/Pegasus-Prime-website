@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 const Code = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isPegasusMode, setIsPegasusMode] = useState(false);
+  const [history, setHistory] = useState([]);
   const scrollRef = useRef(null);
+  const hasInitialized = useRef(false);
 
-  const PEGASUS_ASCII = `__________                                                 __________        .__                
-\\______   \\ ____   _________    ________ __  ______        \\______   \\_______|__| _____   ____  
- |     ___// __ \\ / ___\\__  \\  /  ___/  |  \\/  ___/  ______ |     ___/\\_  __ \\  |/     \\/ __ \\ 
- |    |   \\  ___// /_/  > __ \\_\\___ \\|  |  /\\___ \\  /_____/ |    |     |  | \\/  |  Y Y  \\  ___/ 
- |____|    \\___  >___  (____  /____  >____//____  >         |____|     |__|  |__|__|_|  /\\___  >
-               \\/_____/     \\/     \\/           \\/                                    \\/     \\/ 
+  const PEGASUS_ASCII = useMemo(() => String.raw`__________                                                 __________        .__                
+\______   \ ____   _________    ________ __  ______        \______   \_______|__| _____   ____  
+ |     ___// __ \ / ___\__  \  /  ___/  |  \/  ___/  ______ |     ___/\_  __ \  |/     \_/ __ \ 
+ |    |   \  ___// /_/  > __ \_\___ \|  |  /\___ \  /_____/ |    |     |  | \/  |  Y Y  \  ___/ 
+ |____|    \___  >___  (____  /____  >____//____  >         |____|     |__|  |__|__|_|  /\___  >
+               \/_____/     \/     \/           \/                                    \/     \/ 
                             __________________________  ____ ________   ____                    
-                           /   __   \\______  \\______  \\/_   /_   \\   \\ /   /                    
-                           \\____    /   /    /   /    / |   ||   |\\   Y   /                     
-                              /    /   /    /   /    /  |   ||   | \\     /                      
-                             /____/   /____/   /____/   |___||___|  \\___/                       
+                           /   __   \______  \______  \/_   /_   \   \ /   /                    
+                           \____    /   /    /   /    / |   ||   |\   Y   /                     
+                              /    /   /    /   /    /  |   ||   | \     /                      
+                             /____/   /____/   /____/   |___||___|  \___/                       
                                                                                                 
 ....................................................................................................
 ....................................................................................................
@@ -51,7 +53,7 @@ const Code = () => {
 ....-*##=*+=#=.........+*#*+####**####=#%%###*@#####%%%%##***##%#*#%%##%@@@%%#*=-........-*#*--.....
 ....+*#=-*-+#-.........+*%#+*##****##**##%%###@@%##########+++*##%#**##%%%%#*+*#*++-......=+**=:....
 ....+##-:*++*-..........**%**+##*#%*+*%%*#%#####%%%#########*+=+=......:=+**####%%%#=+:...:+*%*=:...
-....==*==**+:...........:+#%%%#+++*#%%#*#@@@@@@%+==*+====---:................-=%#*##+=....-*###:...
+....==*==**+:...........:+#%%%#+++*#%%#*#@@@@@@%+==*+====---:.................-=%#*##+=....-*###:...
 .....-=++***.............=#*##*****+##+%@@@@@%##-.............................:+####+-......+#*+....
 .....--*+=+*.............=*%#%#++:-**+@@@@%%%%*=.................. ..........=+##*=..... .-#%#+=....
 .....:=+++:=............=+###*===*#**%%%%%%%#*=........ ...................:+##*+-........-###*-....
@@ -65,9 +67,9 @@ const Code = () => {
 ............ ........-*##=+.........+%#%#*=+-.................  ....................................
 ......................:*##+=:.........:+*###++=:................................... ................
 ........................+*#+=:...........:+**#*++=..................................................
-................. .......+*#++:....... .....-###%#+=........... ..  ............................ ...)`;
+................. .......+*#++:....... .....-###%#+=........... ..  ............................ ...)`, []);
 
-  const MOCK_FILES = {
+  const MOCK_FILES = useMemo(() => ({
     'autonomous.cpp': `// Team 97711V - High Stakes Autonomous
 #include "nexus_core.lib"
 
@@ -112,7 +114,7 @@ class DriveSubsystem : public Cybercore::Module {
   auton:
     default: "right_side_rush"
     delay: 0ms`
-  };
+  }), []);
 
   const HELP_TEXT = `Available commands:
   help      - Display this help message
@@ -127,33 +129,7 @@ class DriveSubsystem : public Cybercore::Module {
   uname     - Print system information
   clear     - Clear the terminal screen`;
 
-  const [history, setHistory] = useState([]);
-
-  const commands = {
-    help: () => HELP_TEXT,
-    nexus: () => `Nexus is our proprietary motion control library.
-It enables precise motor movements using advanced PID loops, motion profiling, 
-and real-time sensor fusion to ensure absolute consistency during autonomous routines.`,
-    cybercore: () => `Cybercore is our foundational class architecture for the Nexus system.
-It provides the core abstraction layer for motor control, sensor integration, 
-and task scheduling, allowing for a robust and modular codebase.`,
-    pegasus: () => {
-      setIsPegasusMode(true);
-      return PEGASUS_ASCII;
-    },
-    ls: () => Object.keys(MOCK_FILES).join('  '),
-    whoami: () => `team_97711v@pegasus-prime`,
-    pwd: () => `/users/pegasus/97711V/src`,
-    date: () => new Date().toString(),
-    uname: () => `Pegasus-OS 2.4.1-STABLE Darwin x86_64`,
-    cat: (args) => {
-      if (!args || args.length === 0) return 'cat: usage: cat <filename>';
-      const fileName = args[0];
-      return MOCK_FILES[fileName] || `cat: ${fileName}: No such file or directory`;
-    }
-  };
-
-  const handleCommand = async (cmd) => {
+  const handleCommand = useCallback(async (cmd) => {
     if (isTyping) return;
     
     const parts = cmd.trim().split(/\s+/);
@@ -170,6 +146,30 @@ and task scheduling, allowing for a robust and modular codebase.`,
     if (primaryCmd === '') return;
 
     let fullResponse = '';
+    const commands = {
+      help: () => HELP_TEXT,
+      nexus: () => `Nexus is our proprietary motion control library.
+It enables precise motor movements using advanced PID loops, motion profiling, 
+and real-time sensor fusion to ensure absolute consistency during autonomous routines.`,
+      cybercore: () => `Cybercore is our foundational class architecture for the Nexus system.
+It provides the core abstraction layer for motor control, sensor integration, 
+and task scheduling, allowing for a robust and modular codebase.`,
+      pegasus: () => {
+        setIsPegasusMode(true);
+        return PEGASUS_ASCII;
+      },
+      ls: () => Object.keys(MOCK_FILES).join('  '),
+      whoami: () => `team_97711v@pegasus-prime`,
+      pwd: () => `/users/pegasus/97711V/src`,
+      date: () => new Date().toString(),
+      uname: () => `Pegasus-OS 2.4.1-STABLE Darwin x86_64`,
+      cat: (args) => {
+        if (!args || args.length === 0) return 'cat: usage: cat <filename>';
+        const fileName = args[0];
+        return MOCK_FILES[fileName] || `cat: ${fileName}: No such file or directory`;
+      }
+    };
+
     if (commands[primaryCmd]) {
       fullResponse = commands[primaryCmd](args);
     } else {
@@ -196,13 +196,17 @@ and task scheduling, allowing for a robust and modular codebase.`,
     }
     
     setIsTyping(false);
-  };
+  }, [isTyping, HELP_TEXT, PEGASUS_ASCII, MOCK_FILES]);
 
   useEffect(() => {
-    // Automatically run pegasus on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    handleCommand('pegasus');
-  }, []);
+    if (!hasInitialized.current) {
+      const timeout = setTimeout(() => {
+        handleCommand('pegasus');
+      }, 0);
+      hasInitialized.current = true;
+      return () => clearTimeout(timeout);
+    }
+  }, [handleCommand]);
 
   useEffect(() => {
     if (scrollRef.current) {
