@@ -64,7 +64,7 @@ const Team = () => {
                 Captain
               </div>
               <p className="text-slate-400 font-medium text-sm leading-relaxed px-2">
-                Leading the charge with strategic vision and full-stack technical expertise. Oversees the integration of mechanical and software systems to ensure peak competition performance.
+                Da goat
               </p>
             </div>
           </motion.div>
@@ -94,7 +94,7 @@ const Team = () => {
                   Hardware
                 </div>
                 <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">
-                  Specializes in robust mechanical design and precision fabrication. Turns structural concepts into competition-ready realities with a keen eye for durability.
+                  does building idk what else.
                 </p>
               </div>
             </motion.div>
@@ -119,8 +119,8 @@ const Team = () => {
                 <div className="inline-block px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-secondary text-[10px] font-black uppercase tracking-widest mb-4">
                   Hardware
                 </div>
-                <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">
-                  Focuses on kinematics and efficient power distribution. Optimizes the drivetrain and physical mechanisms for maximum speed and reliability on the field.
+                <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed text-center text-4xl mt-2">
+                  💀
                 </p>
               </div>
             </motion.div>
@@ -146,7 +146,7 @@ const Team = () => {
                   Software
                 </div>
                 <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">
-                  Architects the autonomous software and control algorithms. Fine-tunes sensor fusion and PID loops to guarantee precise, repeatable robot behavior.
+                  pro pokerogue player
                 </p>
               </div>
             </motion.div>
