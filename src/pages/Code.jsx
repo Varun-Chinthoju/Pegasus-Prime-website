@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 const Code = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isPegasusMode, setIsPegasusMode] = useState(false);
   const scrollRef = useRef(null);
 
   const PEGASUS_ASCII = `__________                                                 __________        .__                
@@ -50,7 +51,7 @@ const Code = () => {
 ....-*##=*+=#=.........+*#*+####**####=#%%###*@#####%%%%##***##%#*#%%##%@@@%%#*=-........-*#*--.....
 ....+*#=-*-+#-.........+*%#+*##****##**##%%###@@%##########+++*##%#**##%%%%#*+*#*++-......=+**=:....
 ....+##-:*++*-..........**%**+##*#%*+*%%*#%#####%%%#########*+=+=......:=+**####%%%#=+:...:+*%*=:...
-....==*==**+:...........:+#%%%#+++*#%%#*#@@@@@@%+==*+====---:.................-=%#*##+=....-*###:...
+....==*==**+:...........:+#%%%#+++*#%%#*#@@@@@@%+==*+====---:................-=%#*##+=....-*###:...
 .....-=++***.............=#*##*****+##+%@@@@@%##-.............................:+####+-......+#*+....
 .....--*+=+*.............=*%#%#++:-**+@@@@%%%%*=.................. ..........=+##*=..... .-#%#+=....
 .....:=+++:=............=+###*===*#**%%%%%%%#*=........ ...................:+##*+-........-###*-....
@@ -117,7 +118,7 @@ class DriveSubsystem : public Cybercore::Module {
   help      - Display this help message
   nexus     - Learn about our custom motion control library
   cybercore - Learn about our foundational architecture
-  pegasus   - Display the Pegasus Prime ASCII art and info
+  pegasus   - Deploy Pegasus Core CLI & Visualize Emblem
   ls        - List files in current directory
   cat <file>- Read the contents of a file
   pwd       - Print working directory
@@ -126,10 +127,7 @@ class DriveSubsystem : public Cybercore::Module {
   uname     - Print system information
   clear     - Clear the terminal screen`;
 
-  const [history, setHistory] = useState([
-    { type: 'input', text: 'help' },
-    { type: 'output', text: HELP_TEXT }
-  ]);
+  const [history, setHistory] = useState([]);
 
   const commands = {
     help: () => HELP_TEXT,
@@ -139,7 +137,10 @@ and real-time sensor fusion to ensure absolute consistency during autonomous rou
     cybercore: () => `Cybercore is our foundational class architecture for the Nexus system.
 It provides the core abstraction layer for motor control, sensor integration, 
 and task scheduling, allowing for a robust and modular codebase.`,
-    pegasus: () => PEGASUS_ASCII,
+    pegasus: () => {
+      setIsPegasusMode(true);
+      return PEGASUS_ASCII;
+    },
     ls: () => Object.keys(MOCK_FILES).join('  '),
     whoami: () => `team_97711v@pegasus-prime`,
     pwd: () => `/users/pegasus/97711V/src`,
@@ -198,10 +199,21 @@ and task scheduling, allowing for a robust and modular codebase.`,
   };
 
   useEffect(() => {
+    // Automatically run pegasus on mount
+    handleCommand('pegasus');
+  }, []);
+
+  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [history]);
+
+  // Pegasus theme colors
+  const terminalBg = isPegasusMode ? 'bg-[#020617]' : 'bg-primary/95';
+  const promptColor = isPegasusMode ? 'text-accent' : 'text-accent';
+  const outputColor = isPegasusMode ? 'text-cyan-400' : 'text-white/70';
+  const inputColor = isPegasusMode ? 'text-white' : 'text-white';
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-4">
@@ -213,7 +225,7 @@ and task scheduling, allowing for a robust and modular codebase.`,
       </h1>
 
       <div className="w-full max-w-5xl mx-auto">
-        <div className="bg-primary/95 backdrop-blur-2xl rounded-2xl overflow-hidden shadow-2xl border border-white/10 flex flex-col h-[800px]">
+        <div className={`${terminalBg} backdrop-blur-2xl rounded-2xl overflow-hidden shadow-2xl border ${isPegasusMode ? 'border-accent/30 shadow-accent/5' : 'border-white/10'} flex flex-col h-[800px] transition-colors duration-1000`}>
           {/* Title Bar */}
           <div className="bg-white/5 px-4 py-3 flex items-center justify-between border-b border-white/5">
             <div className="flex space-x-2">
@@ -221,7 +233,9 @@ and task scheduling, allowing for a robust and modular codebase.`,
               <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
               <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
             </div>
-            <div className="text-xs text-white/40 font-mono tracking-wide">user@pegasus — zsh — 80x24</div>
+            <div className="text-xs text-white/40 font-mono tracking-wide">
+              {isPegasusMode ? 'pegasus@system — pegasus-cli — 80x24' : 'user@pegasus — zsh — 80x24'}
+            </div>
             <div className="w-12"></div>
           </div>
 
@@ -234,20 +248,20 @@ and task scheduling, allowing for a robust and modular codebase.`,
               <div key={i} className="mb-4 whitespace-pre overflow-x-auto">
                 {entry.type === 'input' ? (
                   <div className="flex gap-2 text-white/90">
-                    <span className="text-accent font-bold">user@pegasus</span>
+                    <span className={`${promptColor} font-bold`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
                     <span className="text-secondary">~</span>
-                    <span className="text-secondary font-bold">%</span>
+                    <span className="text-secondary font-bold">#</span>
                     <span className="font-medium">{entry.text}</span>
                   </div>
                 ) : (
                   <div 
-                    className={`mt-1 pl-4 border-l-2 border-white/5 ${entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? 'terminal-glow' : 'text-white/70 leading-tight'}`}
+                    className={`mt-1 pl-4 border-l-2 ${isPegasusMode ? 'border-accent/20' : 'border-white/5'} ${entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? 'terminal-glow' : `${outputColor} leading-tight`}`}
                     style={entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? { 
                       fontSize: '6px', 
                       lineHeight: '6px', 
                       whiteSpace: 'pre',
-                      color: '#e2e8f0', // Metallic/Silver-ish
-                      background: 'linear-gradient(to right, #38bdf8, #e2e8f0, #38bdf8)',
+                      color: '#e2e8f0',
+                      background: isPegasusMode ? 'linear-gradient(to right, #38bdf8, #60a5fa, #e2e8f0)' : 'linear-gradient(to right, #38bdf8, #e2e8f0, #38bdf8)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundSize: '200% auto',
@@ -263,13 +277,13 @@ and task scheduling, allowing for a robust and modular codebase.`,
             {/* Input Line */}
             {!isTyping && (
               <div className="flex gap-2 text-white items-center">
-                <span className="text-accent font-bold">user@pegasus</span>
+                <span className={`${promptColor} font-bold`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
                 <span className="text-secondary">~</span>
-                <span className="text-secondary font-bold">%</span>
+                <span className="text-secondary font-bold">#</span>
                 <input
                   type="text"
                   autoFocus
-                  className="bg-transparent border-none outline-none flex-grow text-white placeholder-white/20 caret-secondary"
+                  className={`bg-transparent border-none outline-none flex-grow ${inputColor} placeholder-white/20 caret-secondary`}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => {
@@ -285,9 +299,9 @@ and task scheduling, allowing for a robust and modular codebase.`,
             )}
             {isTyping && (
               <div className="flex gap-2 text-white items-center opacity-50">
-                <span className="text-accent font-bold">user@pegasus</span>
+                <span className={`${promptColor} font-bold`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
                 <span className="text-secondary">~</span>
-                <span className="text-secondary font-bold">%</span>
+                <span className="text-secondary font-bold">#</span>
                 <span className="animate-pulse">_</span>
               </div>
             )}
@@ -316,7 +330,7 @@ and task scheduling, allowing for a robust and modular codebase.`,
            <div className="p-8 bg-white rounded-3xl border border-slate-200 shadow-xl shadow-primary/5">
               <h3 className="text-xl font-black mb-4 text-primary uppercase tracking-tight">Dev Tools</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                 Try typing <code className="text-accent font-bold bg-accent/10 px-1 rounded">nexus</code> or <code className="text-accent font-bold bg-accent/10 px-1 rounded">pegasus</code> in the terminal above to explore our technical identity. Our environment is designed to mirror our actual development workflow.
+                 Try typing <code className="text-accent font-bold bg-accent/10 px-1 rounded">nexus</code> or <code className="text-accent font-bold bg-accent/10 px-1 rounded">help</code> in the terminal above to explore our technical identity. Our environment is designed to mirror our actual development workflow.
               </p>
            </div>
         </div>
