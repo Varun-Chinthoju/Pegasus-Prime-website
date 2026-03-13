@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Heart, Award, ShieldCheck, Cpu } from 'lucide-react';
+import { ExternalLink, Heart, Award, Cpu, Zap, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Sponsors = () => {
@@ -8,100 +8,99 @@ const Sponsors = () => {
       name: 'TechCorp Solutions', 
       tier: 'Platinum', 
       description: 'Global leader in advanced sensor technology and integrated electronics.',
-      icon: <Cpu className="text-accent" size={40} />
+      icon: <Cpu className="text-secondary" size={40} />,
+      color: 'from-secondary/20 to-transparent'
     },
     { 
       name: 'Industrial Metals Inc.', 
       tier: 'Gold', 
-      description: 'Precision-cut aluminum and specialized alloys for competition-grade chassis.',
-      icon: <Cpu className="text-secondary" size={40} />
+      description: 'Supplying precision-cut aluminum and specialized alloys for competition chassis.',
+      icon: <Zap className="text-accent" size={40} />,
+      color: 'from-accent/20 to-transparent'
     },
     { 
       name: 'Future Engineering', 
       tier: 'Gold', 
       description: 'Dedicated to fostering the next generation of STEM innovators and designers.',
-      icon: <Cpu className="text-secondary" size={40} />
+      icon: <Target className="text-blue-400" size={40} />,
+      color: 'from-blue-400/20 to-transparent'
     },
     { 
-      name: 'Local Bank & Trust', 
+      name: 'Community Trust', 
       tier: 'Silver', 
-      description: 'Empowering local high school robotics teams through community grants.',
-      icon: <Cpu className="text-slate-400" size={40} />
+      description: 'Empowering local high school robotics teams through community focused grants.',
+      icon: <Award className="text-slate-400" size={40} />,
+      color: 'from-slate-400/20 to-transparent'
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto py-24 px-6 min-h-screen bg-primary" id="main-content">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-24"
-      >
-        <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight uppercase italic">
-          Strategic <span className="text-accent">Partners</span>
-        </h1>
-        <p className="text-text-muted max-w-2xl mx-auto font-medium text-lg leading-relaxed">
-          Our innovation is powered by organizations that believe in the future of engineering.
+    <div className="max-w-7xl mx-auto py-24 px-8 min-h-screen bg-primary">
+      <div className="flex flex-col items-center text-center mb-32">
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="section-title"
+        >
+          Our <span className="text-secondary">Sponsors</span>
+        </motion.h1>
+        <div className="section-accent"></div>
+        <p className="text-slate-400 max-w-2xl mt-8 font-bold text-lg leading-relaxed italic">
+          Innovation is fueled by partnership. We are proud to collaborate with organizations that share our commitment to engineering excellence.
         </p>
-      </motion.div>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-32">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-40">
         {sponsors.map((sponsor, index) => (
           <motion.div 
             key={index} 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ y: -10, borderColor: 'rgba(14, 165, 233, 0.3)' }}
-            className="p-10 glass-panel rounded-[2.5rem] flex flex-col items-center text-center group transition-all duration-500"
+            whileHover={{ y: -15 }}
+            className="glass-panel p-12 rounded-[3.5rem] flex flex-col items-center text-center group transition-all duration-500 hover:border-secondary/20 shadow-2xl"
           >
-             <div className="w-full aspect-video bg-surface-light rounded-3xl mb-10 flex items-center justify-center relative overflow-hidden border border-white/5">
-                <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="p-6 bg-primary/50 rounded-2xl border border-white/10 shadow-2xl group-hover:scale-110 transition-transform duration-500">
+             <div className={`w-full aspect-video bg-gradient-to-br ${sponsor.color} rounded-[2.5rem] mb-10 flex items-center justify-center relative overflow-hidden border border-white/5 group-hover:shadow-[0_0_40px_rgba(245,158,11,0.1)] transition-all`}>
+                <div className="p-8 bg-surface-light/50 backdrop-blur-md rounded-3xl border border-white/10 group-hover:scale-110 transition-transform duration-500 shadow-xl">
                    {sponsor.icon}
                 </div>
-                <Award className="absolute top-6 right-6 text-white/10 group-hover:text-accent transition-colors" size={24} />
+                <Award className={`absolute top-6 right-6 ${sponsor.tier === 'Platinum' ? 'text-secondary' : sponsor.tier === 'Gold' ? 'text-accent' : 'text-slate-400'} opacity-20 group-hover:opacity-100 transition-opacity`} size={28} />
              </div>
              
-             <div className="inline-block px-5 py-1.5 rounded-lg text-[10px] font-black mb-6 bg-accent/10 text-accent uppercase tracking-[0.2em] border border-accent/20 italic">
+             <div className="px-6 py-2 rounded-full text-[10px] font-black mb-8 bg-primary border border-white/10 text-text-muted uppercase tracking-[0.3em] italic">
                 {sponsor.tier} Partner
              </div>
              
-             <h3 className="text-2xl font-bold text-white mb-4 tracking-tight group-hover:text-accent transition-colors">
-               {sponsor.name}
-             </h3>
+             <h3 className="text-3xl font-black text-white mb-4 tracking-tighter italic uppercase">{sponsor.name}</h3>
+             <p className="text-slate-400 text-sm font-bold mb-12 leading-relaxed italic flex-grow">{sponsor.description}</p>
              
-             <p className="text-text-muted text-sm font-medium mb-10 leading-relaxed flex-grow">
-               {sponsor.description}
-             </p>
-             
-             <button className="flex items-center gap-2 text-white/60 hover:text-white transition-all text-sm font-bold uppercase italic tracking-widest border-b-2 border-white/5 hover:border-accent pb-2">
-                Corporate Profile <ExternalLink size={14} />
+             <button className="flex items-center gap-3 text-white hover:text-secondary transition-all text-sm font-black uppercase italic tracking-widest group/btn border-b-2 border-white/5 hover:border-secondary pb-2">
+                Corporate Profile <ExternalLink size={16} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
              </button>
           </motion.div>
         ))}
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass-panel rounded-[4rem] p-16 md:p-24 text-center relative overflow-hidden shadow-2xl"
+        className="glass-panel rounded-[4rem] p-20 md:p-32 text-center relative overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] border border-secondary/10"
       >
-        <div className="absolute inset-0 bg-accent/5 pointer-events-none"></div>
-        <div className="relative z-10">
-          <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-10 border border-accent/20">
-            <Heart className="text-accent" size={40} fill="currentColor" />
+        <div className="absolute inset-0 bg-secondary/5 pointer-events-none"></div>
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="w-24 h-24 bg-secondary/10 rounded-full flex items-center justify-center mb-12 border border-secondary/20 shadow-2xl">
+            <Heart className="text-secondary animate-pulse" size={48} fill="currentColor" />
           </div>
-          <h2 className="text-4xl md:text-6xl font-black mb-8 text-white tracking-tight uppercase italic">Power the Mission</h2>
-          <p className="text-text-muted max-w-2xl mx-auto mb-12 font-medium text-lg leading-relaxed">
-            Support Team 97711V. Your contribution directly impacts our ability to compete at the highest level and mentor future engineers.
+          <h2 className="text-5xl md:text-7xl font-black mb-8 text-white tracking-tighter uppercase italic">Fuel the Future</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto mb-16 font-bold text-xl leading-relaxed italic">
+            Support Team 97711V. Your partnership empowers our mission to compete at the highest level and mentor the engineers of tomorrow.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button className="px-12 py-5 bg-accent hover:bg-white text-primary font-black rounded-2xl transition-all shadow-xl hover:shadow-accent/20 uppercase tracking-widest italic text-lg active:scale-95">
-               Contact Support
+          <div className="flex flex-col sm:flex-row gap-8 w-full justify-center">
+            <button className="px-16 py-6 bg-secondary hover:bg-white text-primary font-black rounded-2xl transition-all shadow-2xl hover:shadow-secondary/20 uppercase tracking-widest italic text-xl hover:scale-105 active:scale-95">
+               Support Our Mission
             </button>
-            <button className="px-12 py-5 bg-white/5 hover:bg-white/10 text-white font-black rounded-2xl transition-all border border-white/10 backdrop-blur-md uppercase tracking-widest italic text-lg active:scale-95">
-               Download Packet
+            <button className="px-16 py-6 bg-white/5 hover:bg-white/10 text-white font-black rounded-2xl transition-all border-4 border-white/10 backdrop-blur-md uppercase tracking-widest italic text-xl hover:scale-105 active:scale-95">
+               View Packet
             </button>
           </div>
         </div>

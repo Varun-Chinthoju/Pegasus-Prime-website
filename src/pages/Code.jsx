@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { Terminal, Cpu, Settings, Code2, Database, ShieldCheck } from 'lucide-react';
 
 const Code = () => {
   const [input, setInput] = useState('');
@@ -8,15 +10,16 @@ const Code = () => {
   const scrollRef = useRef(null);
   const hasInitialized = useRef(false);
 
-  const PEGASUS_ASCII = useMemo(() => String.raw`__________                                                 __________        .__                
+  const PEGASUS_ASCII = useMemo(() => String.raw`
+__________                                                 __________        .__                
 \______   \ ____   _________    ________ __  ______        \______   \_______|__| _____   ____  
  |     ___// __ \ / ___\__  \  /  ___/  |  \/  ___/  ______ |     ___/\_  __ \  |/     \_/ __ \ 
  |    |   \  ___// /_/  > __ \_\___ \|  |  /\___ \  /_____/ |    |     |  | \/  |  Y Y  \  ___/ 
- |____|    \___  >___  (____  /____  >____//____  >         |____|     |__|  |__|__|_|  /\___  >
+ |____|    \___  >___  (____  /____  >____//____  >         |____|     |__|  |__|__|_|  /\\___  >
                \/_____/     \/     \/           \/                                    \/     \/ 
                             __________________________  ____ ________   ____                    
                            /   __   \______  \______  \/_   /_   \   \ /   /                    
-                           \____    /   /    /   /    / |   ||   |\   Y   /                     
+                           \____    /   /    /   /    / |   ||   |\\   Y   /                     
                               /    /   /    /   /    /  |   ||   | \     /                      
                              /____/   /____/   /____/   |___||___|  \___/                       
                                                                                                 
@@ -215,52 +218,71 @@ and task scheduling, allowing for a robust and modular codebase.`,
   }, [history]);
 
   // Pegasus theme colors
-  const terminalBg = isPegasusMode ? 'bg-[#020617]' : 'bg-primary/95';
+  const terminalBg = isPegasusMode ? 'bg-[#020617]' : 'bg-surface/90';
   const promptColor = isPegasusMode ? 'text-accent' : 'text-accent';
   const outputColor = isPegasusMode ? 'text-cyan-400' : 'text-white/70';
   const inputColor = isPegasusMode ? 'text-white' : 'text-white';
 
   return (
-    <div className="max-w-7xl mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-8 flex items-center gap-3">
-        <span className="p-2 bg-accent rounded-lg shadow-lg shadow-accent/20">
-          <span className="text-sm font-mono tracking-tighter text-primary">&lt;/&gt;</span>
-        </span>
-        Development Console
-      </h1>
+    <div className="max-w-7xl mx-auto py-24 px-8 min-h-screen bg-primary">
+      <div className="flex flex-col items-center text-center mb-24">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center"
+        >
+          <div className="p-4 bg-surface-light rounded-[2rem] text-accent border border-accent/20 mb-8 shadow-2xl">
+            <Terminal size={48} />
+          </div>
+          <h1 className="section-title">
+            Development <span className="text-secondary">Environment</span>
+          </h1>
+          <div className="section-accent"></div>
+          <p className="text-slate-400 max-w-2xl mt-8 font-bold text-lg leading-relaxed italic">
+            Direct access to the Pegasus Core Software Stack. Type &apos;help&apos; to begin mission protocols.
+          </p>
+        </motion.div>
+      </div>
 
-      <div className="w-full max-w-5xl mx-auto">
-        <div className={`${terminalBg} backdrop-blur-2xl rounded-2xl overflow-hidden shadow-2xl border ${isPegasusMode ? 'border-accent/30 shadow-accent/5' : 'border-white/10'} flex flex-col h-[800px] transition-colors duration-1000`}>
+      <div className="w-full max-w-6xl mx-auto mb-32">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`${terminalBg} backdrop-blur-3xl rounded-[3rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.6)] border ${isPegasusMode ? 'border-accent/30' : 'border-white/10'} flex flex-col h-[800px] transition-all duration-1000 relative`}
+        >
+          {/* Subtle Scanline Effect */}
+          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%] z-20 opacity-30"></div>
+
           {/* Title Bar */}
-          <div className="bg-white/5 px-4 py-3 flex items-center justify-between border-b border-white/5">
-            <div className="flex space-x-2">
-              <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-              <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-              <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+          <div className="bg-white/5 px-8 py-5 flex items-center justify-between border-b border-white/5 relative z-30">
+            <div className="flex space-x-3">
+              <div className="w-3.5 h-3.5 rounded-full bg-[#ff5f56] shadow-inner"></div>
+              <div className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] shadow-inner"></div>
+              <div className="w-3.5 h-3.5 rounded-full bg-[#27c93f] shadow-inner"></div>
             </div>
-            <div className="text-xs text-white/40 font-mono tracking-wide">
-              {isPegasusMode ? 'pegasus@system — pegasus-cli — 80x24' : 'user@pegasus — zsh — 80x24'}
+            <div className="text-xs text-white/30 font-black uppercase tracking-[0.4em] italic">
+              {isPegasusMode ? 'pegasus_core_active' : 'terminal_standard_mode'}
             </div>
-            <div className="w-12"></div>
+            <div className="w-16 h-1 bg-white/5 rounded-full"></div>
           </div>
 
           {/* Terminal Content */}
           <div 
             ref={scrollRef}
-            className="flex-grow p-8 font-mono text-sm md:text-base leading-relaxed overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent"
+            className="flex-grow p-12 font-mono text-base md:text-lg leading-relaxed overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent relative z-10"
           >
             {history.map((entry, i) => (
-              <div key={i} className="mb-4 whitespace-pre overflow-x-auto">
+              <div key={i} className="mb-6 whitespace-pre overflow-x-auto">
                 {entry.type === 'input' ? (
-                  <div className="flex gap-2 text-white/90">
-                    <span className={`${promptColor} font-bold`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
-                    <span className="text-secondary">~</span>
-                    <span className="text-secondary font-bold">#</span>
-                    <span className="font-medium">{entry.text}</span>
+                  <div className="flex gap-3 text-white/90">
+                    <span className={`${promptColor} font-black italic`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
+                    <span className="text-secondary font-black">~</span>
+                    <span className="text-accent font-black">#</span>
+                    <span className="font-bold">{entry.text}</span>
                   </div>
                 ) : (
                   <div 
-                    className={`mt-1 pl-4 border-l-2 ${isPegasusMode ? 'border-accent/20' : 'border-white/5'} ${entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? 'terminal-glow' : `${outputColor} leading-tight`}`}
+                    className={`mt-2 pl-6 border-l-2 ${isPegasusMode ? 'border-accent/30' : 'border-white/10'} ${entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? 'terminal-glow' : `${outputColor} leading-relaxed`}`}
                     style={entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? { 
                       fontSize: '6px', 
                       lineHeight: '6px', 
@@ -281,14 +303,14 @@ and task scheduling, allowing for a robust and modular codebase.`,
             
             {/* Input Line */}
             {!isTyping && (
-              <div className="flex gap-2 text-white items-center">
-                <span className={`${promptColor} font-bold`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
-                <span className="text-secondary">~</span>
-                <span className="text-secondary font-bold">#</span>
+              <div className="flex gap-3 text-white items-center">
+                <span className={`${promptColor} font-black italic`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
+                <span className="text-secondary font-black">~</span>
+                <span className="text-accent font-black">#</span>
                 <input
                   type="text"
                   autoFocus
-                  className={`bg-transparent border-none outline-none flex-grow ${inputColor} placeholder-white/20 caret-secondary`}
+                  className={`bg-transparent border-none outline-none flex-grow ${inputColor} font-bold placeholder-white/5 caret-secondary`}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => {
@@ -303,42 +325,43 @@ and task scheduling, allowing for a robust and modular codebase.`,
               </div>
             )}
             {isTyping && (
-              <div className="flex gap-2 text-white items-center opacity-50">
-                <span className={`${promptColor} font-bold`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
-                <span className="text-secondary">~</span>
-                <span className="text-secondary font-bold">#</span>
-                <span className="animate-pulse">_</span>
+              <div className="flex gap-3 text-white items-center opacity-50">
+                <span className={`${promptColor} font-black italic`}>{isPegasusMode ? 'pegasus@cli' : 'user@pegasus'}</span>
+                <span className="text-secondary font-black">~</span>
+                <span className="text-accent font-black">#</span>
+                <span className="animate-pulse bg-secondary w-3 h-6 ml-1"></span>
               </div>
             )}
           </div>
-        </div>
-        
-        <style dangerouslySetInnerHTML={{ __html: `
-          @keyframes shine {
-            to { background-position: 200% center; }
-          }
-        `}} />
+        </motion.div>
+      </div>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="p-8 bg-white rounded-3xl border border-slate-200 shadow-xl shadow-primary/5">
-              <h3 className="text-xl font-black mb-4 text-primary uppercase tracking-tight">Architecture Highlights</h3>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                 Our software stack is built on the principle of hardware-agnostic control. By separating our high-level logic (Nexus) from the low-level hardware interactions (Cybercore), we achieve rapid development and extreme reliability.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                 <span className="px-3 py-1 bg-primary/5 text-primary rounded-full text-xs font-bold border border-primary/10">PID-Loops</span>
-                 <span className="px-3 py-1 bg-primary/5 text-primary rounded-full text-xs font-bold border border-primary/10">Odometry</span>
-                 <span className="px-3 py-1 bg-primary/5 text-primary rounded-full text-xs font-bold border border-primary/10">Multithreading</span>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes shine {
+          to { background-position: 200% center; }
+        }
+      `}} />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+         {[
+           { icon: <Cpu />, title: 'Core Logic', desc: 'Hardware-agnostic control layer separating high-level strategy from low-level motor kinematics.' },
+           { icon: <Code2 />, title: 'Control API', desc: 'Proprietary Nexus library implementing 3-layer PID loops and real-time odometry correction.' },
+           { icon: <ShieldCheck />, title: 'Fault Tolerance', desc: 'Multi-threaded error handling and sensor-fusion protocols ensuring absolute session stability.' }
+         ].map((highlight, i) => (
+           <motion.div 
+             key={i}
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.1 * i }}
+             className="p-10 glass-panel rounded-[2.5rem] border border-white/5 flex flex-col group hover:border-accent/20 transition-all duration-500"
+           >
+              <div className="p-5 bg-surface-light rounded-2xl w-fit mb-8 text-accent border border-white/10 group-hover:bg-accent group-hover:text-primary transition-all duration-500">
+                {React.cloneElement(highlight.icon, { size: 28 })}
               </div>
-           </div>
-           
-           <div className="p-8 bg-white rounded-3xl border border-slate-200 shadow-xl shadow-primary/5">
-              <h3 className="text-xl font-black mb-4 text-primary uppercase tracking-tight">Dev Tools</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                 Try typing <code className="text-accent font-bold bg-accent/10 px-1 rounded">nexus</code> or <code className="text-accent font-bold bg-accent/10 px-1 rounded">help</code> in the terminal above to explore our technical identity. Our environment is designed to mirror our actual development workflow.
-              </p>
-           </div>
-        </div>
+              <h3 className="text-xl font-black text-white mb-4 uppercase italic tracking-tighter">{highlight.title}</h3>
+              <p className="text-slate-400 text-sm font-bold leading-relaxed italic">{highlight.desc}</p>
+           </motion.div>
+         ))}
       </div>
     </div>
   );
