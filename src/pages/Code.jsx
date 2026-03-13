@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const Code = () => {
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef(null);
 
   const PEGASUS_ASCII = `__________                                                 __________        .__                
 \\______   \\ ____   _________    ________ __  ______        \\______   \\_______|__| _____   ____  
- |     ___// __ \\ / ___\\__  \\  /  ___/  |  \\/  ___/  ______ |     ___/\\_  __ \\  |/     \\_/ __ \\ 
+ |     ___// __ \\ / ___\\__  \\  /  ___/  |  \\/  ___/  ______ |     ___/\\_  __ \\  |/     \\/ __ \\ 
  |    |   \\  ___// /_/  > __ \\_\\___ \\|  |  /\\___ \\  /_____/ |    |     |  | \\/  |  Y Y  \\  ___/ 
  |____|    \\___  >___  (____  /____  >____//____  >         |____|     |__|  |__|__|_|  /\\___  >
                \\/_____/     \\/     \\/           \\/                                    \\/     \\/ 
@@ -74,10 +75,7 @@ const Code = () => {
   whoami    - Display current user identity
   clear     - Clear the terminal screen`;
 
-  const [history, setHistory] = useState([
-    { type: 'input', text: 'help' },
-    { type: 'output', text: HELP_TEXT }
-  ]);
+  const [history, setHistory] = useState([]);
 
   const commands = {
     help: () => HELP_TEXT,
@@ -92,24 +90,58 @@ and task scheduling, allowing for a robust and modular codebase.`,
     whoami: () => `team_97711v@pegasus-prime`,
   };
 
-  const handleCommand = (cmd) => {
+  const handleCommand = async (cmd) => {
+    if (isTyping) return;
+    
     const trimmedCmd = cmd.trim().toLowerCase();
+    
     if (trimmedCmd === 'clear') {
       setHistory([]);
       return;
     }
 
-    let response = '';
-    if (trimmedCmd === '') {
-      response = '';
-    } else if (commands[trimmedCmd]) {
-      response = commands[trimmedCmd]();
+    // Add user input to history immediately
+    setHistory(prev => [...prev, { type: 'input', text: cmd }]);
+
+    if (trimmedCmd === '') return;
+
+    let fullResponse = '';
+    if (commands[trimmedCmd]) {
+      fullResponse = commands[trimmedCmd]();
     } else {
-      response = `zsh: command not found: ${trimmedCmd}`;
+      fullResponse = `zsh: command not found: ${trimmedCmd}`;
     }
 
-    setHistory(prev => [...prev, { type: 'input', text: cmd }, { type: 'output', text: response }]);
+    const lines = fullResponse.split('\n');
+    
+    setIsTyping(true);
+    
+    // Add an empty output entry that we will populate
+    setHistory(prev => [...prev, { type: 'output', text: '' }]);
+
+    let currentText = '';
+    for (let i = 0; i < lines.length; i++) {
+      // Delay between lines: 40ms
+      await new Promise(resolve => setTimeout(resolve, 40));
+      currentText += lines[i] + (i < lines.length - 1 ? '\n' : '');
+      
+      setHistory(prev => {
+        const newHistory = [...prev];
+        const lastEntry = newHistory[newHistory.length - 1];
+        if (lastEntry && lastEntry.type === 'output') {
+          newHistory[newHistory.length - 1] = { ...lastEntry, text: currentText };
+        }
+        return newHistory;
+      });
+    }
+    
+    setIsTyping(false);
   };
+
+  // Run 'help' on mount with animation
+  useEffect(() => {
+    handleCommand('help');
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -155,8 +187,8 @@ and task scheduling, allowing for a robust and modular codebase.`,
                   </div>
                 ) : (
                   <div 
-                    className={`mt-1 pl-4 border-l-2 border-white/5 ${entry.text === PEGASUS_ASCII ? 'terminal-glow' : 'text-white/70 leading-tight'}`}
-                    style={entry.text === PEGASUS_ASCII ? { 
+                    className={`mt-1 pl-4 border-l-2 border-white/5 ${entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? 'terminal-glow' : 'text-white/70 leading-tight'}`}
+                    style={entry.text.includes(PEGASUS_ASCII.substring(0, 20)) ? { 
                       fontSize: '6px', 
                       lineHeight: '6px', 
                       whiteSpace: 'pre',
@@ -175,26 +207,36 @@ and task scheduling, allowing for a robust and modular codebase.`,
             ))}
             
             {/* Input Line */}
-            <div className="flex gap-2 text-white items-center">
-              <span className="text-accent font-bold">user@pegasus</span>
-              <span className="text-secondary">~</span>
-              <span className="text-secondary font-bold">%</span>
-              <input
-                type="text"
-                autoFocus
-                className="bg-transparent border-none outline-none flex-grow text-white placeholder-white/20 caret-secondary"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleCommand(input);
-                    setInput('');
-                  }
-                }}
-                spellCheck="false"
-                autoComplete="off"
-              />
-            </div>
+            {!isTyping && (
+              <div className="flex gap-2 text-white items-center">
+                <span className="text-accent font-bold">user@pegasus</span>
+                <span className="text-secondary">~</span>
+                <span className="text-secondary font-bold">%</span>
+                <input
+                  type="text"
+                  autoFocus
+                  className="bg-transparent border-none outline-none flex-grow text-white placeholder-white/20 caret-secondary"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleCommand(input);
+                      setInput('');
+                    }
+                  }}
+                  spellCheck="false"
+                  autoComplete="off"
+                />
+              </div>
+            )}
+            {isTyping && (
+              <div className="flex gap-2 text-white items-center opacity-50">
+                <span className="text-accent font-bold">user@pegasus</span>
+                <span className="text-secondary">~</span>
+                <span className="text-secondary font-bold">%</span>
+                <span className="animate-pulse">_</span>
+              </div>
+            )}
           </div>
         </div>
         
