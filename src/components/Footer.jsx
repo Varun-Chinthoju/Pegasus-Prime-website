@@ -54,6 +54,7 @@ const Footer = () => {
               <li><a href="/robot" className="text-text-muted hover:text-white transition-colors flex items-center gap-2 group"><Globe size={14} className="group-hover:text-accent transition-colors" /> Our Robot</a></li>
               <li><a href="/build" className="text-text-muted hover:text-white transition-colors flex items-center gap-2 group"><Globe size={14} className="group-hover:text-accent transition-colors" /> Build Process</a></li>
               <li><a href="/code" className="text-text-muted hover:text-white transition-colors flex items-center gap-2 group"><Globe size={14} className="group-hover:text-accent transition-colors" /> Software Stack</a></li>
+              <li><a href="/team" className="text-text-muted hover:text-white transition-colors flex items-center gap-2 group"><Globe size={14} className="group-hover:text-accent transition-colors" /> Team</a></li>
               <li><a href="/sponsors" className="text-text-muted hover:text-white transition-colors flex items-center gap-2 group"><Globe size={14} className="group-hover:text-accent transition-colors" /> Sponsors</a></li>
             </ul>
           </div>

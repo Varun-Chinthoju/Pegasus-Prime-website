@@ -7,6 +7,7 @@ import Build from './pages/Build';
 import Code from './pages/Code';
 import Sponsors from './pages/Sponsors';
 import News from './pages/News';
+import Team from './pages/Team';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="team" element={<Team />} />
           <Route path="robot" element={<Robot />} />
           <Route path="build" element={<Build />} />
           <Route path="code" element={<Code />} />
