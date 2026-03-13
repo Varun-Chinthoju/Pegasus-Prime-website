@@ -1,0 +1,49 @@
+{
+  "members": [
+    {
+      "name": "Alex Chen",
+      "role": "Lead Programmer",
+      "bio": "Specializes in PID control and odometry. Alex architected the Nexus motion library and Cybercore framework."
+    },
+    {
+      "name": "Sarah Miller",
+      "role": "Head Builder",
+      "bio": "Expert in mechanical efficiency and CAD design. Sarah leads the iterative build process for the Pegasus chassis."
+    },
+    {
+      "name": "David Park",
+      "role": "Primary Driver",
+      "bio": "Known for precise maneuvering and calm under pressure. David has over 3 years of competitive driving experience."
+    },
+    {
+      "name": "Maya Gupta",
+      "role": "Notebooker & Strategist",
+      "bio": "Maintains our award-winning engineering notebook. Maya ensures every design decision is documented and data-driven."
+    },
+    {
+      "name": "Leo Rodriguez",
+      "role": "Scout & Analyst",
+      "bio": "Analyzes opponent strategies and field data. Leo provides critical insights during alliance selection."
+    }
+  ],
+  "news": [
+    {
+      "title": "State Championship Bound!",
+      "date": "March 10, 2026",
+      "location": "Regional Finals",
+      "description": "After a grueling series of matches, Pegasus Prime has secured a spot in the State Championships with a first-place finish."
+    },
+    {
+      "title": "Nexus Library v2.0 Released",
+      "date": "February 22, 2026",
+      "location": "Team Workshop",
+      "description": "Our custom motion control library now supports multi-threaded sensor fusion for even greater autonomous precision."
+    },
+    {
+      "title": "STEM Outreach Workshop",
+      "date": "January 15, 2026",
+      "location": "Community Center",
+      "description": "We hosted a robotics workshop for local middle schoolers, introducing them to the world of VEX and engineering."
+    }
+  ]
+}
