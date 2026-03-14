@@ -1,29 +1,28 @@
 {
   "members": [
     {
-      "name": "Alex Chen",
-      "role": "Programmer",
-      "bio": "Specializes in PID control and odometry. Alex architected the Nexus motion library and Cybercore framework."
+      "name": "Varun",
+      "role": "Captain",
+      "image": "https://placehold.co/400x400?text=Varun",
+      "bio": "Placeholder bio for Varun. Accomplished team member with a passion for robotics and engineering excellence."
     },
     {
-      "name": "Sarah Miller",
-      "role": "Builder",
-      "bio": "Expert in mechanical efficiency and CAD design. Sarah manages the iterative build process for the Pegasus chassis."
+      "name": "Jahaan",
+      "role": "Hardware",
+      "image": "https://placehold.co/400x400?text=Jahaan",
+      "bio": "Placeholder bio for Jahaan. Specialized in mechanical design and rapid prototyping of robotic systems."
     },
     {
-      "name": "David Park",
-      "role": "Driver",
-      "bio": "Known for precise maneuvering and calm under pressure. David has over 3 years of competitive driving experience."
+      "name": "Avyukt",
+      "role": "Hardware",
+      "image": "https://placehold.co/400x400?text=Avyukt",
+      "bio": "Placeholder bio for Avyukt. Focuses on hardware integration and structural integrity of the team's builds."
     },
     {
-      "name": "Maya Gupta",
-      "role": "Notebooker & Strategist",
-      "bio": "Maintains our award-winning engineering notebook. Maya ensures every design decision is documented and data-driven."
-    },
-    {
-      "name": "Leo Rodriguez",
-      "role": "Scout & Analyst",
-      "bio": "Analyzes opponent strategies and field data. Leo provides critical insights during alliance selection."
+      "name": "Yuchen",
+      "role": "Software",
+      "image": "https://placehold.co/400x400?text=Yuchen",
+      "bio": "Placeholder bio for Yuchen. Lead software developer responsible for autonomous algorithms and control systems."
     }
   ],
   "news": [

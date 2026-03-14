@@ -36,7 +36,7 @@ const Build = () => {
             className="space-y-12"
           >
             <div className="aspect-[16/10] glass-panel rounded-[3.5rem] flex items-center justify-center relative overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-50"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/8 to-transparent opacity-50"></div>
               
               {/* Simulated CAD UI Elements */}
               <div className="absolute top-8 left-8 flex gap-2 z-20">
@@ -46,7 +46,7 @@ const Build = () => {
               </div>
               
               <div className="relative p-16 bg-primary/40 rounded-[2.5rem] border border-white/5 group-hover:scale-105 transition-transform duration-700 shadow-inner">
-                <img src={logo} alt="CAD Architecture" className="h-40 w-40 object-contain mix-blend-screen opacity-40 group-hover:opacity-100 transition-all duration-500 drop-shadow-[0_0_30px_rgba(14,165,233,0.3)]" />
+                <img src={logo} alt="CAD Architecture" className="h-40 w-40 object-contain mix-blend-screen opacity-40 group-hover:opacity-100 transition-all duration-500" />
               </div>
               
               <div className="absolute bottom-8 right-8 z-20">
@@ -71,13 +71,13 @@ const Build = () => {
                 icon: <Layers size={32} />, 
                 title: 'Drivetrain', 
                 desc: 'Six-motor tank drive on 3.25" omni wheels. Tuned for the speed we need without burning motors mid-match.',
-                color: 'secondary'
+                color: 'accent'
               },
               { 
                 icon: <Settings size={32} />, 
                 title: 'Mechanisms', 
                 desc: 'Custom 4-bar lift with a pneumatic clamp on the end. Designed specifically around the High Stakes game objects.',
-                color: 'accent'
+                color: 'blue'
               },
               { 
                 icon: <GitBranch size={32} />, 

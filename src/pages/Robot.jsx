@@ -30,7 +30,7 @@ const Robot = () => {
           <div className="absolute inset-0 bg-accent/5 opacity-50"></div>
           
           <div className="bg-surface-light/50 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 transition-transform duration-700 group-hover:scale-105 shadow-2xl z-10">
-            <img src={logo} alt="Robot Illustration" className="w-full h-full object-contain mix-blend-screen drop-shadow-[0_0_20px_rgba(14,165,233,0.3)]" />
+            <img src={logo} alt="Robot Illustration" className="w-full h-full object-contain mix-blend-screen" />
           </div>
           
           <div className="absolute bottom-10 left-10 z-20">
@@ -112,7 +112,7 @@ const Robot = () => {
                       initial={{ width: 0 }}
                       animate={{ width: `${stat.value}%` }}
                       transition={{ duration: 1.5, delay: 0.2 }}
-                      className="h-full bg-accent shadow-[0_0_10px_rgba(14,165,233,0.5)]"
+                      className="h-full bg-accent rounded-full"
                     ></motion.div>
                  </div>
               </div>

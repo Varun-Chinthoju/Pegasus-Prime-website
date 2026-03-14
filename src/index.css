@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #050505; /* True Black/Midnight */
-  --color-surface: #0a0a0a; /* Very Deep Gray */
-  --color-surface-light: #121212; /* Deep Gray */
-  --color-accent: #00f0ff; /* Electric Cyan */
-  --color-accent-hover: #00c3ff; /* Deep Cyan */
-  --color-text-main: #f8fafc; /* Slate 50 */
-  --color-text-muted: #94a3b8; /* Slate 400 */
+  --color-primary: #050505;        /* Near black */
+  --color-surface: #0d0d0d;        /* Very deep gray */
+  --color-surface-light: #1a1a1a;  /* Deep gray */
+  --color-accent: #C9A84C;         /* Gold */
+  --color-accent-hover: #b8943e;   /* Deeper gold */
+  --color-blue: #4A7FC1;           /* Muted blue */
+  --color-text-main: #f8fafc;      /* Near white */
+  --color-text-muted: #64748b;     /* Slate 500 */
 }
 
 @layer base {
@@ -17,11 +18,11 @@
 }
 
 .glass-panel {
-  @apply bg-surface/60 backdrop-blur-2xl border border-white/5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)];
+  @apply bg-surface/60 backdrop-blur-2xl border border-white/8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)];
 }
 
 .glass-panel-hover {
-  @apply hover:bg-surface/80 hover:border-accent/40 hover:shadow-[0_0_40px_rgba(0,240,255,0.2)] hover:-translate-y-1 transition-all duration-400 ease-out;
+  @apply hover:bg-surface/80 hover:border-accent/20 hover:-translate-y-1 transition-all duration-400 ease-out;
 }
 
 .text-gradient {
@@ -29,9 +30,5 @@
 }
 
 .text-accent-gradient {
-  @apply bg-gradient-to-r from-accent via-blue-400 to-emerald-400 bg-clip-text text-transparent;
-}
-
-.terminal-glow {
-  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6), 0 0 24px rgba(0, 240, 255, 0.3);
+  @apply bg-gradient-to-r from-accent via-yellow-300 to-white bg-clip-text text-transparent;
 }

@@ -39,10 +39,10 @@ const Sponsors = () => {
         transition={{ delay: 0.3 }}
         className="glass-panel rounded-[4rem] p-20 md:p-32 text-center relative overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] border border-secondary/10"
       >
-        <div className="absolute inset-0 bg-secondary/5 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-accent/5 pointer-events-none"></div>
         <div className="relative z-10 flex flex-col items-center">
-          <div className="w-24 h-24 bg-secondary/10 rounded-full flex items-center justify-center mb-12 border border-secondary/20 shadow-2xl">
-            <Heart className="text-secondary animate-pulse" size={48} fill="currentColor" />
+          <div className="w-24 h-24 bg-accent/10 rounded-full flex items-center justify-center mb-12 border border-accent/20 shadow-2xl">
+            <Heart className="text-accent" size={48} fill="currentColor" />
           </div>
           <h2 className="text-5xl md:text-7xl font-black mb-8 text-white tracking-tighter uppercase italic">Want to Help?</h2>
           <p className="text-slate-400 max-w-2xl mx-auto mb-16 font-bold text-xl leading-relaxed italic">
@@ -51,7 +51,7 @@ const Sponsors = () => {
           <div className="flex flex-col sm:flex-row gap-8 w-full justify-center">
             <a 
               href="mailto:contact@pegasusprime.com"
-              className="inline-flex items-center justify-center gap-3 px-16 py-6 bg-secondary hover:bg-white text-primary font-black rounded-2xl transition-all shadow-2xl hover:shadow-secondary/20 uppercase tracking-widest italic text-xl hover:scale-105 active:scale-95"
+              className="inline-flex items-center justify-center gap-3 px-16 py-6 bg-accent hover:bg-accent-hover text-primary font-black rounded-2xl transition-all shadow-2xl uppercase tracking-widest italic text-xl hover:scale-105 active:scale-95"
             >
               <Mail size={20} /> Email Us
             </a>

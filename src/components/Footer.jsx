@@ -66,7 +66,7 @@ const Footer = () => {
             </p>
             <a 
               href="/sponsors" 
-              className="inline-flex items-center justify-center w-full py-4 bg-accent hover:bg-white text-primary font-black rounded-2xl transition-all uppercase tracking-widest italic shadow-lg shadow-accent/20"
+              className="inline-flex items-center justify-center w-full py-4 bg-accent hover:bg-accent-hover text-primary font-black rounded-2xl transition-all uppercase tracking-widest italic shadow-lg"
             >
               Get in touch
             </a>

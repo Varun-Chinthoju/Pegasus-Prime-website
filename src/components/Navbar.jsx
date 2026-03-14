@@ -71,7 +71,7 @@ const Navbar = () => {
                   aria-current={isActive(link.path) ? 'page' : undefined}
                   className={`px-6 py-2 rounded-xl text-sm font-black uppercase tracking-widest italic transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-accent border-2 ${
                     isActive(link.path)
-                      ? 'bg-accent border-accent text-primary shadow-[0_0_20px_rgba(14,165,233,0.4)]'
+                      ? 'bg-accent border-accent text-primary'
                       : 'text-slate-400 border-transparent hover:text-white hover:bg-white/5'
                   }`}
                 >
